@@ -2,7 +2,8 @@ import * as React from 'react';
 import { useState, useEffect } from "react";
 import L from "leaflet";
 import PropTypes from "prop-types";
-import onGoogleMap from "./googlemap";
+import OnGoogleMap from "./googlemap";
+import OnOSMmap from './openstreetmap';
 
 export default function MainBody(props){
     const pathname=window.location.pathname;
@@ -33,7 +34,8 @@ export default function MainBody(props){
     console.log(props)
     return (
         <>
-            <onGoogleMap/>
+            {/* <OnGoogleMap/> */}
+            <OnOSMmap/>
         </>
     );
 }

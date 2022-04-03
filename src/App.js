@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from './oil.png';
 import MainBody from './components/body/main';
 import * as React from 'react';
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
@@ -26,7 +26,7 @@ export default function App() {
       <Navbar bg="dark" expand="lg" variant='dark'>
         {/* <Container fluid> */}
           <Navbar.Brand href="#">
-            <img alt="" src="/logo.svg" width="30" height="30" className="d-inline-block align-top"/>{' '}
+            <img alt="" src="/oil.png" width="30" height="30" className="d-inline-block align-top"/>{' '}
             Fuel Price Check
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
