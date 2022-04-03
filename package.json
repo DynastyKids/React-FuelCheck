@@ -1,5 +1,6 @@
 {
-  "name": "Fuel_Prices",
+  "name": "React - Fuel_Check",
+  "homepage": "https://dynastykids.github.io/React-FuelCheck/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -23,7 +24,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -44,6 +47,7 @@
     ]
   },
   "devDependencies": {
-    "@types/leaflet": "^1.7.9"
+    "@types/leaflet": "^1.7.9",
+    "gh-pages": "^3.2.3"
   }
 }
