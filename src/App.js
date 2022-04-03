@@ -20,7 +20,7 @@ export default function App() {
       // Not Receive the location info, use default
     })
   }
-  console.log(lat,lng,zoom)
+  // console.log(lat,lng,zoom)
   
   return (
     <div className="App">

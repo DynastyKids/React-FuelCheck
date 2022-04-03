@@ -7,18 +7,6 @@ import styles from "./osm_location-button.module.css";
 import L from "leaflet";
 import tileLayer from "./osm_tileLayer";
 
-const points = [
-    {
-        title:"Pos1",lat:-27.5,lng:134,text:"Unleaded 91:132\nPremium 95:123123"
-    },
-    {
-        title:"pos2",lat:-27,lng:136,text:"Unleaded:132\nPremium 95:123123\nPremium 98:123123"
-    },
-    {
-        title:"pos3", lat:-28.5,lng:135,text:"Unleaded:132\nPremium:123123\nLPG:100.1"
-    }
-];
-
 export default function OnOSMmap() {
     const [map, setMap] = useState(null);
 
@@ -29,7 +17,6 @@ export default function OnOSMmap() {
        try {
         const response = await fetch('https://fuel.danisty8.com/fuel');
         const json = await response.json();
-        console.log(json)
         let dataarray=[];
         json.NSW.forEach(element => {
           let pricetag=''
@@ -73,12 +60,9 @@ export default function OnOSMmap() {
           if(element.LPG != null){pricetag+= '\n\nLPG: '+ element.LPG}
           dataarray.push({title:element.name,lat:element.loc_lat,lng:element.loc_lng,address:element.address,priceInfo:pricetag})
         });
-        console.log(json.TAS)
-        console.log(json.WA)
         setData(dataarray);
-        // setData(json.movies);
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       } finally {
         setLoading(false);
       }

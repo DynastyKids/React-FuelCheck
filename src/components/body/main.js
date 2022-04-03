@@ -29,7 +29,7 @@ export default function MainBody(props){
         // Path is not legal, use default U91
     }
 
-    console.log(props)
+    // console.log(props)
     return (
         <>
             {/* <OnGoogleMap/> */}
