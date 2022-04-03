@@ -1,34 +1,32 @@
 import * as React from 'react';
 import { useState, useEffect } from "react";
-import L from "leaflet";
-import PropTypes from "prop-types";
 import OnGoogleMap from "./googlemap";
 import OnOSMmap from './openstreetmap';
 
 export default function MainBody(props){
     const pathname=window.location.pathname;
-    console.log(pathname);
+    // console.log(pathname);
 
     const [map, setMap] = useState(null);
 
-    if(pathname === "U91"){
-
-    } else if(pathname === "U94"){
-
+    if(pathname === "U94"){
+        const url="https://fuel.danisty8.com/E10";
     } else if(pathname === "U95"){
-
+        const url="https://fuel.danisty8.com/P95";
     } else if(pathname === "U98"){
-
+        const url="https://fuel.danisty8.com/P98";
     } else if(pathname === "DL"){
-
+        const url="https://fuel.danisty8.com/DL";
     } else if(pathname === "PDL"){
-
-    } else if(pathname === "LNG"){
-
+        const url="https://fuel.danisty8.com/PDL";
+    } else if(pathname === "LPG"){
+        const url="https://fuel.danisty8.com/LPG";
     } else if(pathname === "ADB"){
+        const url="https://fuel.danisty8.com/Adblue";
         // Adblue only showing locations
     } else{
-        // Path is not legal, use default prices
+        const url="https://fuel.danisty8.com/U91";
+        // Path is not legal, use default U91
     }
 
     console.log(props)
@@ -39,13 +37,3 @@ export default function MainBody(props){
         </>
     );
 }
-
-async function getNSWFuelData() {
-    try {
-      let response = await fetch('https://static.danisty8.com/fuel/NSWprice.json');
-      let responseJson = await response.json();
-      return responseJson.movies;
-     } catch(error) {
-      console.error(error);
-    }
-  }

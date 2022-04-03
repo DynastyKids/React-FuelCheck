@@ -1,8 +1,9 @@
 import logo from './oil.png';
 import MainBody from './components/body/main';
 import * as React from 'react';
-import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function App() {
   const [lat, setLat] = React.useState(-28.00);
@@ -32,8 +33,14 @@ export default function App() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="d-flex">
-              {/* <Nav.Link disabled href="#">Home</Nav.Link> */}
-              <NavDropdown title="Option" id="basic-nav-dropdown">
+              <Nav.Link href="/U91">Unledaded 91</Nav.Link>
+              <Nav.Link href="/E10">Unledaded 94 / E10</Nav.Link>
+              <Nav.Link href="/P95">Premium 95</Nav.Link>
+              <Nav.Link href="/P98">Premium 98</Nav.Link>
+              <Nav.Link href="/DL">Diesel</Nav.Link>
+              <Nav.Link href="/PDL">Premium Diesel</Nav.Link>
+              <Nav.Link href="/LPG">LPG</Nav.Link>
+              {/* <NavDropdown title="Option" id="basic-nav-dropdown">
                 <NavDropdown.Item href="/U91">Unledaded 91</NavDropdown.Item>
                 <NavDropdown.Item href="/U94">Unledaded 94 / E10</NavDropdown.Item>
                 <NavDropdown.Item href="/U95">Unledaded 95</NavDropdown.Item>
@@ -43,7 +50,7 @@ export default function App() {
                 <NavDropdown.Item href="/PDL">Premium Diesel</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/LPG">LPG</NavDropdown.Item>
-              </NavDropdown>
+              </NavDropdown> */}
             </Nav>
           </Navbar.Collapse>
         {/* </Container> */}
