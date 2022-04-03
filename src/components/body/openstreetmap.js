@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState, useEffect  } from 'react'
+// import {useLocation} from "react-router-dom";
 import {MapContainer, Rectangle,TileLayer,useMap,useMapEvent, Marker, Popup,ScaleControl } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 
@@ -6,13 +7,15 @@ import 'react-leaflet-markercluster/dist/styles.min.css';
 import styles from "./osm_location-button.module.css";
 import L from "leaflet";
 import tileLayer from "./osm_tileLayer";
-
 export default function OnOSMmap() {
     const [map, setMap] = useState(null);
 
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-  
+
+    // const fuelType = new URLSearchParams(useLocation().search).get('fuel')
+    // console.log(useLocation().search)
+
     const getServos = async () => {
        try {
         const response = await fetch('https://fuel.danisty8.com/fuel');
@@ -21,7 +24,7 @@ export default function OnOSMmap() {
         json.NSW.forEach(element => {
           let pricetag=''
           if(element.U91 != null){pricetag+= 'Unleaded 91: ' + element.U91}
-          // if(element.E10 != null){pricetag+= '\nEthanol 10:'+ element.E10}
+          if(element.E10 != null){pricetag+= '\nEthanol 10:'+ element.E10}
           if(element.P95 != null){pricetag+= '\nPremium Unleaded 95: '+ element.P95}
           if(element.P98 != null){pricetag+= '\nPremium Unleaded 98: '+ element.P98}
           pricetag+='\n';
@@ -29,7 +32,7 @@ export default function OnOSMmap() {
           if(element.PDL != null){pricetag+= '\nPremium Diesel: '+ element.PDL}
           if(element.B20 != null){pricetag+= '\nBioDiesel 20: '+ element.B20}
           pricetag+='\n'
-          if(element.LPG != null){pricetag+= '\n\nLPG: '+ element.LPG}
+          if(element.LPG != null){pricetag+= '\nLPG: '+ element.LPG}
           dataarray.push({title:element.name,lat:element.loc_lat,lng:element.loc_lng,address:element.address,priceInfo:pricetag})
         });
         json.WA.forEach(element => {
@@ -43,13 +46,13 @@ export default function OnOSMmap() {
           if(element.PDL != null){pricetag+= '\nPremium Diesel: '+ element.PDL}
           if(element.B20 != null){pricetag+= '\nBioDiesel 20: '+ element.B20}
           pricetag+='\n'
-          if(element.LPG != null){pricetag+= '\n\nLPG: '+ element.LPG}
+          if(element.LPG != null){pricetag+= '\nLPG: '+ element.LPG}
           dataarray.push({title:element.name,lat:element.loc_lat,lng:element.loc_lng,address:element.address,priceInfo:pricetag})
         });
         json.TAS.forEach(element => {
           let pricetag=''
           if(element.U91 != null){pricetag+= 'Unleaded 91: ' + element.U91}
-          // if(element.E10 != null){pricetag+= '\nEthanol 10:'+ element.E10}
+          if(element.E10 != null){pricetag+= '\nEthanol 10:'+ element.E10}
           if(element.P95 != null){pricetag+= '\nPremium Unleaded 95: '+ element.P95}
           if(element.P98 != null){pricetag+= '\nPremium Unleaded 98: '+ element.P98}
           pricetag+='\n';
@@ -57,12 +60,12 @@ export default function OnOSMmap() {
           if(element.PDL != null){pricetag+= '\nPremium Diesel: '+ element.PDL}
           if(element.B20 != null){pricetag+= '\nBioDiesel 20: '+ element.B20}
           pricetag+='\n'
-          if(element.LPG != null){pricetag+= '\n\nLPG: '+ element.LPG}
+          if(element.LPG != null){pricetag+= '\nLPG: '+ element.LPG}
           dataarray.push({title:element.name,lat:element.loc_lat,lng:element.loc_lng,address:element.address,priceInfo:pricetag})
         });
         setData(dataarray);
       } catch (error) {
-        // console.error(error);
+        console.error(error);
       } finally {
         setLoading(false);
       }
