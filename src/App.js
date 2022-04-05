@@ -34,7 +34,7 @@ export default function App() {
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav className="me-auto my-2 my-sm-0" style={{ maxHeight: '350px' }} navbarScroll>
-              <NavDropdown title="Fuel option (Not available at moment)" id="basic-nav-dropdown">
+              <NavDropdown title="Fuel option (Not available)" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#U91">Unledaded 91</NavDropdown.Item>
                 <NavDropdown.Item href="#E10">Unledaded 94 / E10</NavDropdown.Item>
                 <NavDropdown.Item href="#P95">Premium 95</NavDropdown.Item>
