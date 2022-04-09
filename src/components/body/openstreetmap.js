@@ -7,22 +7,20 @@ import 'react-leaflet-markercluster/dist/styles.min.css';
 import styles from "./osm_location-button.module.css";
 import L from "leaflet";
 import tileLayer from "./osm_tileLayer";
+import OsmMarkers from './osm_markers';
 
 export default function OnOSMmap(props) {
-    const hashpram=window.location.hash;
     const [map, setMap] = React.useState(null);
-
     const [data, setData] = React.useState([]);
-    const [filteredArray, setFilteredArray] = React.useState([]);
+    const [isLoading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
-        setData(props.jsondata);
-        setFilteredArray(DataBuilder(data))
-    }, [props,window.location.hash]);
-
-    const DisplayLineBreak = {
-        whiteSpace: "pre-line"
-    }
+        setLoading(props.status);
+        // setFilteredArray(DataBuilder(data))
+        if (!isLoading) {
+            setData(props.jsondata);
+        }
+    }, []);
 
     return (
         <>
@@ -33,17 +31,7 @@ export default function OnOSMmap(props) {
                 />
 
                 <MarkerClusterGroup>
-                    {filteredArray.length > 0 ? filteredArray.map(({ brand, title, lat, lng, address, priceInfo,price1 }, index) => (
-                        <Marker key={index} position={[lat, lng]}>
-                            {hashpram.length > 0 ? <Tooltip direction="top" opacity={1} permanent>{price1}</Tooltip>:<></>}
-                            <Popup><h5>{title}</h5>
-                                <p><b>Addr:</b> {address}</p>
-                                <div style={DisplayLineBreak}>
-                                    {priceInfo}
-                                </div>
-                            </Popup>
-                        </Marker>
-                    )) : <></>}
+                    <OsmMarkers jsondata={props.jsondata} status={props.status}/>
                 </MarkerClusterGroup>
 
                 <LocationButton map={map} />
@@ -196,24 +184,3 @@ const LocationButton = () => {
 
     return null;
 };
-
-
-function DataBuilder(props) {
-    var dataArray = []
-    props.forEach(element => {
-        let pricetag = ''
-        if (element.U91 !== null && element.U91) { pricetag += 'Unleaded 91: ' + element.U91 }
-        if (element.E10 !== null && element.E10) { pricetag += '\nEthanol 10:' + element.E10 }
-        if (element.P95 !== null && element.P95) { pricetag += '\nPremium Unleaded 95: ' + element.P95 }
-        if (element.P98 !== null && element.P98) { pricetag += '\nPremium Unleaded 98: ' + element.P98 }
-        pricetag += '\n';
-        if (element.DL !== null && element.DL) { pricetag += '\nDiesel: ' + element.DL }
-        if (element.PDL !== null && element.PDL) { pricetag += '\nPremium Diesel: ' + element.PDL }
-        if (element.B20 !== null && element.B20) { pricetag += '\nBioDiesel 20: ' + element.B20 }
-        pricetag += '\n'
-        if (element.LPG !== null && element.LPG) { pricetag += '\nLPG: ' + element.LPG }
-        dataArray.push({ brand: element.brand, title: element.name, lat: element.loc_lat, lng: element.loc_lng, address: element.address, priceInfo: pricetag, price1: (''+element.U91+element.E10+element.P95+element.P98+element.DL+element.PDL+ element.LPG).replaceAll('undefined', '') })
-    });
-    return (dataArray);
-}
-
