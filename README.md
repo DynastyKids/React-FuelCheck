@@ -5,10 +5,18 @@ This is an react build application for checking fuel prices at servos across NSW
 ## About
 This is an unofficial web app, and is in no way connected with the any state Government. Data are corrected when pulled and synchorized at certain interval. 
 
-## Future developments & Notices
-1. Adding filter on each fuel type
-2. Adding each brands icon on pins
-3. NT and QLD's fuel info are still looking for APIs
-4. Until state government has official API access, VIC, SA and ACT's fuel prices are currently unavailable.
+# Updates
 
-Any helpful issues and pull requests are welcome.
+## April Updates
+ - Adding fuel type filter on navigation bar
+ - Adding some stations for State Gov API unavailable area (VIC, QLD and ACT) through 3rd sources.
+ - Adding 91 Opal (Low Aromatic Fuel) display support
+
+## Future developments & Notices
+1. ~~ Adding fuel type filter for selection~~
+2. Adding each brands icon on pins
+3. Looking possibilities for accessing API and display infos for ~~NT and~~ QLD, VIC, ACT
+4. Adding AdBlue available locations
+5. Adding Terminal Gate Price for reference (Pump price are different by store and supplier)
+
+Any suggestions / stars / pull requests are welcome.

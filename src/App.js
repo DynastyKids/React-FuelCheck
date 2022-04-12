@@ -35,7 +35,8 @@ export default function App() {
             <Nav className="me-auto my-2 my-sm-0" style={{ maxHeight: '350px' }} navbarScroll>
               <NavDropdown title="Fuel option " id="basic-nav-dropdown">
                 <NavDropdown.Item href="#U91">Unledaded 91</NavDropdown.Item>
-                <NavDropdown.Item href="#E10">Unledaded 94 / E10</NavDropdown.Item>
+                <NavDropdown.Item href="#LAF">Opal 91 / Low Aromatic Fuel</NavDropdown.Item>
+                <NavDropdown.Item href="#E10">Ethanol 94 / E10</NavDropdown.Item>
                 <NavDropdown.Item href="#P95">Premium 95</NavDropdown.Item>
                 <NavDropdown.Item href="#P98">Premium 98</NavDropdown.Item>
                 <NavDropdown.Item href="#DL">Diesel</NavDropdown.Item>
