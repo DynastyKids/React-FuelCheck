@@ -24,7 +24,7 @@ export default function OnOSMmap(props) {
 
     return (
         <>
-            <MapContainer center={[-28.0, 133.0]} zoom={5}>
+            <MapContainer center={[-28.0, 133.0]} zoom={5} tap={false}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
