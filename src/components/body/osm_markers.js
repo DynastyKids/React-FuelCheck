@@ -23,7 +23,7 @@ export default function OsmMarkers(props) {
         var cheap5 = []
         if (window.location.hash.length > 1) {
             // Set Fullname of fuel type
-            const fuelName=[["U91","E10","P95","P98","DL","PDL","B20","LPG"],["Unleaded 91","Ethanol 10","Premium Unleaded 95","Premium Unleaded 98","Diesel","Premium Diesel","BioDiesel","LPG"]]
+            const fuelName=[["U91","E10","P95","P98","DL","PDL","B20","LPG","LAF"],["Unleaded 91","Ethanol 10","Premium Unleaded 95","Premium Unleaded 98","Diesel","Premium Diesel","BioDiesel","LPG","Low Aromatic Fuel"]]
             var index=0;
             for (index = 0; index < fuelName[0].length; index++) {
                 if (window.location.hash.substring(1) == fuelName[0][index]){
@@ -31,7 +31,7 @@ export default function OsmMarkers(props) {
                 }
             }
             props.jsondata.forEach(element => {
-                if (element[window.location.hash.substring(1)] !== null) {
+                if (element[window.location.hash.substring(1)] !== null && element[window.location.hash.substring(1)]) {
                     newdata.push({ "price1": element[window.location.hash.substring(1)], "address": element.address, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": fuelName[1][index] + ": " + element[window.location.hash.substring(1)] })
                     cheap5.push(element[window.location.hash.substring(1)]*100)
                 }
@@ -47,7 +47,8 @@ export default function OsmMarkers(props) {
             props.jsondata.forEach(element => {
                 let priceInfo = ''
                 if (element.U91 !== null && element.U91) { priceInfo += 'Unleaded 91: ' + element.U91 }
-                if (element.E10 !== null && element.E10) { priceInfo += '\nEthanol 10:' + element.E10 }
+                if (element.LAF !== null && element.LAF) { priceInfo += 'Opal 91 (LAF): ' + element.LAF }
+                if (element.E10 !== null && element.E10) { priceInfo += '\nEthanol 94 (E10):' + element.E10 }
                 if (element.P95 !== null && element.P95) { priceInfo += '\nPremium Unleaded 95: ' + element.P95 }
                 if (element.P98 !== null && element.P98) { priceInfo += '\nPremium Unleaded 98: ' + element.P98 }
                 priceInfo += '\n';
