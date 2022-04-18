@@ -12,6 +12,7 @@ This is an unofficial web app, and is in no way connected with the any state Gov
  - Adding some stations for State Gov API unavailable area (VIC, QLD and ACT) through 3rd sources.
  - Adding 91 Opal (Low Aromatic Fuel) display support
  - Adding navigate with Google Map option in popup window
+ - Showing current mapview's cheapest station (Require user to select fuel type)
 
 ## Future developments & Notices
 1. ~~ Adding fuel type filter for selection~~
