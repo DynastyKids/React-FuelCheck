@@ -31,6 +31,8 @@ function contentText(getBounds, jsondata) {
                         cheapestName=element.name
                         if(element.state === "NSW" || element.state === "TAS"){
                             cheapestAddr=element.address
+                        }else if(element.state === "SA"){
+                            cheapestAddr=element.address+`, `+element.state+`, `+element.postcode
                         }else{
                             cheapestAddr=element.address+`, `+element.suburb+`, `+element.state+`, `+element.postcode
                         }
