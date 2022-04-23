@@ -17,7 +17,6 @@ function contentText(getBounds, jsondata) {
     var returnText = `Please select a fuel type to viewing cheapest info in your mapview.`
     const fuelName = [["U91", "E10", "P95", "P98", "DL", "PDL", "B20", "LPG", "LAF"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Low Aromatic Fuel"]]
     const { _northEast, _southWest } = getBounds;
-    console.log(_northEast,_southWest)
     for (let index = 0; index < fuelName[0].length; index++) {
         if (window.location.hash.substring(1) === fuelName[0][index]) {
             var cheapestPrice=999;
@@ -30,7 +29,7 @@ function contentText(getBounds, jsondata) {
                     if (!isNaN(element[fuelName[0][index]]) && element[fuelName[0][index]] !==null && element[fuelName[0][index]] >0 && element[fuelName[0][index]] < cheapestPrice && element.loc_lat<_northEast.lat &&  element.loc_lat>_southWest.lat && element.loc_lng > _southWest.lng && element.loc_lng < _northEast.lng) {
                         cheapestPrice=element[fuelName[0][index]]
                         cheapestName=element.name
-                        if(element.state === "NSW"){
+                        if(element.state === "NSW" || element.state === "TAS"){
                             cheapestAddr=element.address
                         }else{
                             cheapestAddr=element.address+`, `+element.suburb+`, `+element.state+`, `+element.postcode
