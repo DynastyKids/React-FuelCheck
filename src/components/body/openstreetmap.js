@@ -8,6 +8,7 @@ import styles from "./osm_location-button.module.css";
 import L from "leaflet";
 import tileLayer from "./osm_tileLayer";
 import OsmMarkers from './osm_markers';
+import Location from './osm_mapview';
 
 export default function OnOSMmap(props) {
     const [map, setMap] = React.useState(null);
@@ -24,7 +25,7 @@ export default function OnOSMmap(props) {
 
     return (
         <>
-            <MapContainer center={[-28.0, 133.0]} zoom={5} tap={false}>
+            <MapContainer whenCreated={setMap} center={[-28.0, 133.0]} zoom={5} tap={false}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -36,6 +37,8 @@ export default function OnOSMmap(props) {
 
                 <LocationButton map={map} />
                 <ScaleControl imperial={false} />
+                
+                <Location map={map} jsondata={props.jsondata} status={props.status}/>
             </MapContainer>
         </>
     )
