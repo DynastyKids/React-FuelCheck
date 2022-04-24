@@ -127,7 +127,7 @@ function getIcon(brand, _size){
     } else if (brand.includes("Costco")){
         icon = L.icon({
             iconUrl: require('../../icons/costco.png'),
-            iconSize: [_size]
+            iconSize: [_size*2]
         })
     } else if (brand.includes("Enhance")){
         icon = L.icon({
@@ -137,12 +137,12 @@ function getIcon(brand, _size){
     }else if (brand.includes("Inland")){
         icon = L.icon({
             iconUrl: require('../../icons/inland.png'),
-            iconSize: [_size]
+            iconSize: [_size*2]
         })
     } else if (brand.includes("Liberty")){
         icon = L.icon({
             iconUrl: require('../../icons/liberty.png'),
-            iconSize: [_size]
+            iconSize: [_size*2]
         })
     } else if (brand.includes("Lowes")){
         icon = L.icon({
@@ -187,7 +187,7 @@ function getIcon(brand, _size){
     } else if (brand.includes("Speedway")){
         icon = L.icon({
             iconUrl: require('../../icons/speedway.png'),
-            iconSize: [_size]
+            iconSize: [_size*2]
         })
     } else if (brand.includes("Tesla")){
         icon = L.icon({
@@ -227,7 +227,7 @@ function getIcon(brand, _size){
     } else if (brand.includes("AM/PM")){
         icon = L.icon({
             iconUrl: require('../../icons/ampm.png'),
-            iconSize: [_size]
+            iconSize: [_size*2]
         })
     } else {
         icon = L.icon({
