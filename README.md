@@ -14,10 +14,11 @@ This is an unofficial web app, and is in no way connected with the any state Gov
  - Adding navigate with Google Map option in popup window
  - Showing current mapview's cheapest station (Require user to select fuel type) [#4](https://github.com/DynastyKids/React-FuelCheck/pull/4)
  - SA and QLD Data is now available for evaluation testing as data sources are unstable.
+ - Changing pins icon to each brand icons
 
 ## Future developments & Notices
 1. ~~Adding fuel type filter for selection~~ [#2](https://github.com/DynastyKids/React-FuelCheck/pull/2)
-2. Adding each brands icon on pins
+2. ~~Adding each brands icon on pins~~
 3. Looking possibilities for accessing API and display infos for ~~NT, SA, QLD~~, VIC, ACT
 4. Adding AdBlue available locations
 5. Adding Terminal Gate Price for reference (Pump price are different by store and supplier)
