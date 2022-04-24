@@ -72,11 +72,11 @@ export default function OsmMarkers(props) {
         }
     }, [props.status]);
 
+
     return (
         <>
-
-            {filteredData.map(({ brand, name, loc_lat, loc_lng, address, suburb, state, postcode, priceInfo, price1 }, index) => (
-                <Marker key={index} position={[loc_lat, loc_lng]}>
+            {filteredData.map(({ brand, name, loc_lat, loc_lng, address, suburb, state, postcode, priceInfo, price1 }, index) => ( 
+                <Marker key={index} position={[loc_lat, loc_lng]} icon={getIcon(brand,30)}>
                     {window.location.hash.length > 1 ? <Tooltip direction="top" opacity={1} permanent>{price1}</Tooltip> : <></>}
                     <Popup><h5>{name}</h5>
                         <p><b>Address:</b> {address} {suburb != null && suburb ? ", " + suburb : ""} {state != null && state ? ", " + state : ""}{postcode != null && postcode ? " " + postcode : ""}</p>
@@ -90,4 +90,131 @@ export default function OsmMarkers(props) {
             ))}
         </>
     )
+}
+
+function getIcon(brand, _size){
+    var icon;
+    if (brand.includes("Ampol")) {
+        icon = L.icon({
+            iconUrl: require('../../icons/ampol.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("BP")){
+        icon = L.icon({
+            iconUrl: require('../../icons/bp.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("Budget")){
+        icon = L.icon({
+            iconUrl: require('../../icons/budget.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("Woolworths")){
+        icon = L.icon({
+            iconUrl: require('../../icons/caltexwws.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("Caltex")){
+        icon = L.icon({
+            iconUrl: require('../../icons/caltex.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("Coles")){
+        icon = L.icon({
+            iconUrl: require('../../icons/caltex.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("Costco")){
+        icon = L.icon({
+            iconUrl: require('../../icons/costco.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("Enhance")){
+        icon = L.icon({
+            iconUrl: require('../../icons/enhance.png'),
+            iconSize: [_size]
+        })
+    }else if (brand.includes("Inland")){
+        icon = L.icon({
+            iconUrl: require('../../icons/inland.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("Liberty")){
+        icon = L.icon({
+            iconUrl: require('../../icons/liberty.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("Lowes")){
+        icon = L.icon({
+            iconUrl: require('../../icons/lowes.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("Matilda")){
+        icon = L.icon({
+            iconUrl: require('../../icons/Matilda.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("Metro")){
+        icon = L.icon({
+            iconUrl: require('../../icons/Metro.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("Mobil")){
+        icon = L.icon({
+            iconUrl: require('../../icons/mobil.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("nrma")){
+        icon = L.icon({
+            iconUrl: require('../../icons/nrma.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("PUMA") || brand.includes("puma")){
+        icon = L.icon({
+            iconUrl: require('../../icons/puma.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("11") || brand.includes("Eleven")){
+        icon = L.icon({
+            iconUrl: require('../../icons/seven11.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("Shell")){
+        icon = L.icon({
+            iconUrl: require('../../icons/Shell.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("Speedway")){
+        icon = L.icon({
+            iconUrl: require('../../icons/speedway.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("Tesla")){
+        icon = L.icon({
+            iconUrl: require('../../icons/Tesla.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("United")){
+        icon = L.icon({
+            iconUrl: require('../../icons/united.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("vibe")){
+        icon = L.icon({
+            iconUrl: require('../../icons/vibe.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("westside")){
+        icon = L.icon({
+            iconUrl: require('../../icons/westside.png'),
+            iconSize: [_size]
+        })
+    } else {
+        icon = L.icon({
+            iconUrl: require('../../icons/gas.png'),
+            iconSize: [_size]
+        })
+    } 
+    
+    return icon
 }
