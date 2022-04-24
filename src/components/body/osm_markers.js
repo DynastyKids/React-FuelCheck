@@ -209,6 +209,26 @@ function getIcon(brand, _size){
             iconUrl: require('../../icons/westside.png'),
             iconSize: [_size]
         })
+    } else if (brand.includes("X Convenience")){
+        icon = L.icon({
+            iconUrl: require('../../icons/x.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("On the Run")){
+        icon = L.icon({
+            iconUrl: require('../../icons/otr.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("Mogas")){
+        icon = L.icon({
+            iconUrl: require('../../icons/mogas.png'),
+            iconSize: [_size]
+        })
+    } else if (brand.includes("AM/PM")){
+        icon = L.icon({
+            iconUrl: require('../../icons/ampm.png'),
+            iconSize: [_size]
+        })
     } else {
         icon = L.icon({
             iconUrl: require('../../icons/gas.png'),
