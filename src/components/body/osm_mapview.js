@@ -9,12 +9,15 @@ function getRandomColor() {
 
 const SetRentacle = ({ bounds }) => {
     return bounds.map((bound, index) => (
-        <Rectangle key={index} bounds={bound} color={getRandomColor()} weight={10} fillOpacity={0.1} />
+        <Rectangle key={index} bounds={bound} color={getRandomColor()} weight={15} fillOpacity={0.8} />
     ));
 }
 
 function contentText(getBounds, jsondata) {
-    var returnText = `Please select a fuel type to viewing cheapest info in your mapview.`
+    var returnText="Awaiting user movement"
+    if (window.location.hash.length < 1) {
+        returnText = `Please select a fuel type to viewing cheapest info in your mapview.`
+    }
     const fuelName = [["U91", "E10", "P95", "P98", "DL", "PDL", "B20", "LPG", "LAF"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Low Aromatic Fuel"]]
     const { _northEast, _southWest } = getBounds;
     for (let index = 0; index < fuelName[0].length; index++) {
