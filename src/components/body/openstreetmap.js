@@ -31,7 +31,7 @@ export default function OnOSMmap(props) {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
 
-                <MarkerClusterGroup>
+                <MarkerClusterGroup showCoverageOnHover={true} disableClusteringAtZoom={14} maxClusterRadius={50}>
                     <OsmMarkers jsondata={props.jsondata} status={props.status}/>
                 </MarkerClusterGroup>
 

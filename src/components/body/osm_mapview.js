@@ -24,7 +24,6 @@ function contentText(getBounds, jsondata) {
             var cheapestName="";
 
             if(jsondata.length>0){
-                console.log(jsondata)
                 jsondata.forEach(element => {
                     if (!isNaN(element[fuelName[0][index]]) && element[fuelName[0][index]] !==null && element[fuelName[0][index]] >0 && element[fuelName[0][index]] < cheapestPrice && element.loc_lat<_northEast.lat &&  element.loc_lat>_southWest.lat && element.loc_lng > _southWest.lng && element.loc_lng < _northEast.lng) {
                         cheapestPrice=element[fuelName[0][index]]
@@ -34,7 +33,14 @@ function contentText(getBounds, jsondata) {
                         }else if(element.state === "SA"){
                             cheapestAddr=element.address+`, `+element.state+`, `+element.postcode
                         }else{
-                            cheapestAddr=element.address+`, `+element.suburb+`, `+element.state+`, `+element.postcode
+                            cheapestAddr=element.address
+                            if(element.suburb !== null){
+                                cheapestAddr=cheapestAddr+`, `+element.suburb
+                            }
+                            cheapestAddr=cheapestAddr+`, `+element.state
+                            if(element.postcode !== null){
+                                cheapestAddr=cheapestAddr+` `+element.postcode
+                            }
                         }
                     }
                 });
