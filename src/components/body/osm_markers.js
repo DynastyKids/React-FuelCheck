@@ -1,17 +1,16 @@
 import * as React from 'react';
 // import {useLocation} from "react-router-dom";
-import { MapContainer, Rectangle, TileLayer, useMap, useMapEvent, Marker, Popup, ScaleControl, Tooltip } from 'react-leaflet'
+import { Marker, Popup, ScaleControl, LayersControl, Tooltip, FeatureGroup } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 
 import 'react-leaflet-markercluster/dist/styles.min.css';
-import styles from "./osm_location-button.module.css";
 import L from "leaflet";
-import tileLayer from "./osm_tileLayer";
 
 export default function OsmMarkers(props) {
     const [data, setData] = React.useState([]);
     const [filteredData, setFilteredData] = React.useState([]);
-    const [cheapData, setCheapData] = React.useState([]);
+    const [brandFilteredData, setBrandFilteredData] = React.useState([[]]);
+    const [brandData, setbrandData] = React.useState([]);
 
 
     const DisplayLineBreak = {
@@ -20,7 +19,7 @@ export default function OsmMarkers(props) {
 
     const filterDatas = () => {
         var newdata = []
-        var cheap5 = []
+
         if (window.location.hash.length > 1 && !props.status) {
             // Set Fullname of fuel type
             const fuelName = [["U91", "E10", "P95", "P98", "DL", "PDL", "B20", "LPG", "LAF"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Low Aromatic Fuel"]]
@@ -33,14 +32,9 @@ export default function OsmMarkers(props) {
             props.jsondata.forEach(element => {
                 if (element[window.location.hash.substring(1)] !== null && element[window.location.hash.substring(1)]) {
                     newdata.push({ "price1": element[window.location.hash.substring(1)], "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": fuelName[1][index] + ": " + element[window.location.hash.substring(1)] })
-                    cheap5.push(element[window.location.hash.substring(1)] * 100)
                 }
             });
-            for (let index = 0; index < cheap5.length; index++) {
-                if (isNaN(cheap5[index])) {
-                    console.log(index)
-                };
-            }
+           
         } else if (!props.status){
             props.jsondata.forEach(element => {
                 let priceInfo = ''
@@ -58,7 +52,27 @@ export default function OsmMarkers(props) {
                 newdata.push({ "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": priceInfo })
             });
         }
+
+        var brandList =[]
+        var brandfilteredData=[]
+        newdata.forEach(element=>{
+            const match = brandList.find(brand=>{
+                if (brand.includes(element.brand)) {
+                    return true
+                }
+            })
+            if(match!==undefined){
+                brandfilteredData[brandList.indexOf(match)].push(element)
+            } else {
+                brandList.push(element.brand)
+                brandfilteredData.push([element])
+            }
+        })
+        console.log(brandfilteredData)
+        setbrandData(brandList)
         setFilteredData(newdata)
+        setBrandFilteredData(brandfilteredData)
+        console.log(brandList)
     }
 
     window.addEventListener("hashchange", function () {
@@ -75,7 +89,10 @@ export default function OsmMarkers(props) {
 
     return (
         <>
-            {filteredData.map(({ brand, name, loc_lat, loc_lng, address, suburb, state, postcode, priceInfo, price1 }, index) => ( 
+        {brandData.map((brandname,brandkey)=>(
+            <LayersControl.Overlay name={brandname} key={brandkey}>
+                <FeatureGroup>
+                {brandFilteredData[brandkey].map(({ brand, name, loc_lat, loc_lng, address, suburb, state, postcode, priceInfo, price1 }, index) => ( 
                 <Marker key={index} position={[loc_lat, loc_lng]} icon={getIcon(brand,30)}>
                     {window.location.hash.length > 1 ? <Tooltip direction="top" opacity={1} permanent>{price1}</Tooltip> : <></>}
                     <Popup><h5>{name}</h5>
@@ -88,6 +105,26 @@ export default function OsmMarkers(props) {
                     </Popup>
                 </Marker>
             ))}
+            </FeatureGroup>
+            </LayersControl.Overlay>
+        ))}
+            
+
+
+
+            {/* {filteredData.map(({ brand, name, loc_lat, loc_lng, address, suburb, state, postcode, priceInfo, price1 }, index) => ( 
+                <Marker key={index} position={[loc_lat, loc_lng]} icon={getIcon(brand,30)}>
+                    {window.location.hash.length > 1 ? <Tooltip direction="top" opacity={1} permanent>{price1}</Tooltip> : <></>}
+                    <Popup><h5>{name}</h5>
+                        <p><b>Address:</b> {address} {suburb != null && suburb ? ", " + suburb : ""} {state != null && state ? ", " + state : ""}{postcode != null && postcode ? " " + postcode : ""}</p>
+                        <div style={DisplayLineBreak}>
+                            {priceInfo}
+                            <br />
+                            <a href={"https://www.google.com/maps/search/?api=1&query=" + loc_lat.toString() + "," + loc_lng.toString()}>View in GoogleMap</a>
+                        </div>
+                    </Popup>
+                </Marker>
+            ))} */}
         </>
     )
 }
@@ -121,7 +158,7 @@ function getIcon(brand, _size){
         })
     } else if (brand.includes("Coles")){
         icon = L.icon({
-            iconUrl: require('../../icons/caltex.png'),
+            iconUrl: require('../../icons/colesexp.png'),
             iconSize: [_size]
         })
     } else if (brand.includes("Costco")){
@@ -164,7 +201,7 @@ function getIcon(brand, _size){
             iconUrl: require('../../icons/mobil.png'),
             iconSize: [_size]
         })
-    } else if (brand.includes("nrma")){
+    } else if (brand.includes("NRMA")){
         icon = L.icon({
             iconUrl: require('../../icons/nrma.png'),
             iconSize: [_size]
@@ -199,7 +236,7 @@ function getIcon(brand, _size){
             iconUrl: require('../../icons/united.png'),
             iconSize: [_size]
         })
-    } else if (brand.includes("vibe")){
+    } else if (brand.includes("Vibe")){
         icon = L.icon({
             iconUrl: require('../../icons/vibe.png'),
             iconSize: [_size]

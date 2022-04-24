@@ -1,6 +1,6 @@
 import * as React from 'react';
 // import {useLocation} from "react-router-dom";
-import { MapContainer, Rectangle, TileLayer, useMap, useMapEvent, Marker, Popup, ScaleControl, Tooltip } from 'react-leaflet'
+import { MapContainer, TileLayer, useMap, useMapEvent, LayersControl, ScaleControl } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 
 import 'react-leaflet-markercluster/dist/styles.min.css';
@@ -12,33 +12,27 @@ import Location from './osm_mapview';
 
 export default function OnOSMmap(props) {
     const [map, setMap] = React.useState(null);
-    const [data, setData] = React.useState([]);
-    const [isLoading, setLoading] = React.useState(true);
-
-    React.useEffect(() => {
-        setLoading(props.status);
-        // setFilteredArray(DataBuilder(data))
-        if (!isLoading) {
-            setData(props.jsondata);
-        }
-    }, []);
 
     return (
         <>
             <MapContainer whenCreated={setMap} center={[-28.0, 133.0]} zoom={5} tap={false} preferCanvas={true}>
+                <LayersControl position="topright" collapsed={false}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
 
+
                 <MarkerClusterGroup showCoverageOnHover={true} disableClusteringAtZoom={14} maxClusterRadius={50}>
-                    <OsmMarkers jsondata={props.jsondata} status={props.status}/>
+                    <OsmMarkers jsondata={props.jsondata} status={props.status} />
                 </MarkerClusterGroup>
 
                 <LocationButton map={map} />
                 <ScaleControl imperial={false} />
-                
-                <Location map={map} jsondata={props.jsondata} status={props.status}/>
+
+                <Location map={map} jsondata={props.jsondata} status={props.status} />
+                </LayersControl>
+                <ControllingGroup />
             </MapContainer>
         </>
     )
@@ -184,6 +178,25 @@ const LocationButton = () => {
         // adding new button to map controll
         map.addControl(new customControl());
     }, [map]);
+
+    return null;
+};
+
+
+const ControllingGroup = () => {
+    const map = useMapEvent({
+        overlayadd(e) {
+            let bounds = new L.LatLngBounds();
+            map.eachLayer(function (layer) {
+                if (layer instanceof L.FeatureGroup) {
+                    bounds.extend(layer.getBounds());
+                }
+            });
+            if (bounds.isValid()) {
+                map.flyToBounds(bounds);
+            }
+        },
+    });
 
     return null;
 };

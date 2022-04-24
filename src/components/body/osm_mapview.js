@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { MapContainer, Rectangle, TileLayer } from 'react-leaflet';
+import { Rectangle } from 'react-leaflet';
 import L from 'leaflet';
 import tileLayer from "./osm_tileLayer";
 
