@@ -1,7 +1,6 @@
 import * as React from 'react';
 // import {useLocation} from "react-router-dom";
-import { MapContainer, Rectangle, TileLayer, useMap, useMapEvent, Marker, Popup, ScaleControl, Tooltip } from 'react-leaflet'
-import MarkerClusterGroup from 'react-leaflet-markercluster';
+import { Marker, Popup, Tooltip } from 'react-leaflet'
 
 import 'react-leaflet-markercluster/dist/styles.min.css';
 import styles from "./osm_location-button.module.css";
@@ -11,8 +10,6 @@ import tileLayer from "./osm_tileLayer";
 export default function OsmMarkers(props) {
     const [data, setData] = React.useState([]);
     const [filteredData, setFilteredData] = React.useState([]);
-    const [cheapData, setCheapData] = React.useState([]);
-
 
     const DisplayLineBreak = {
         whiteSpace: "pre-line"
@@ -20,8 +17,8 @@ export default function OsmMarkers(props) {
 
     const filterDatas = () => {
         var newdata = []
-        var cheap5 = []
-        if (window.location.hash.length > 1 && !props.status) {
+        if(props.data != undefined && !props.status){
+        if (window.location.hash.length > 1 ) {
             // Set Fullname of fuel type
             const fuelName = [["U91", "E10", "P95", "P98", "DL", "PDL", "B20", "LPG", "LAF"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Low Aromatic Fuel"]]
             var index = 0;
@@ -30,19 +27,17 @@ export default function OsmMarkers(props) {
                     break;
                 }
             }
-            props.jsondata.forEach(element => {
-                if (element[window.location.hash.substring(1)] !== null && element[window.location.hash.substring(1)]) {
-                    newdata.push({ "price1": element[window.location.hash.substring(1)], "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": fuelName[1][index] + ": " + element[window.location.hash.substring(1)] })
-                    cheap5.push(element[window.location.hash.substring(1)] * 100)
-                }
+            props.data.data.forEach(fuelbrand => {
+                fuelbrand.forEach(element => {
+                    if (element[window.location.hash.substring(1)] !== null && element[window.location.hash.substring(1)]) {
+                        newdata.push({ "price1": element[window.location.hash.substring(1)], "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": fuelName[1][index] + ": " + element[window.location.hash.substring(1)] })
+                    }
+                });
             });
-            for (let index = 0; index < cheap5.length; index++) {
-                if (isNaN(cheap5[index])) {
-                    console.log(index)
-                };
-            }
-        } else if (!props.status){
-            props.jsondata.forEach(element => {
+            
+        } else {
+            props.data.data.forEach(fuelbrand => {
+                fuelbrand.forEach(element => {
                 let priceInfo = ''
                 if (element.U91 !== null && element.U91) { priceInfo += 'Unleaded 91: ' + element.U91 }
                 if (element.LAF !== null && element.LAF) { priceInfo += 'Low Aromatic Fuel (Opal 91): ' + element.LAF }
@@ -56,8 +51,10 @@ export default function OsmMarkers(props) {
                 priceInfo += '\n'
                 if (element.LPG !== null && element.LPG) { priceInfo += '\nLPG: ' + element.LPG }
                 newdata.push({ "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": priceInfo })
+                });
             });
         }
+    }
         setFilteredData(newdata)
     }
 
@@ -67,7 +64,7 @@ export default function OsmMarkers(props) {
 
     React.useEffect(() => {
         if (!props.status) {
-            setData(props.jsondata);
+            setData(props.data);
             filterDatas();
         }
     }, [props.status]);

@@ -19,7 +19,7 @@ export default function OnOSMmap(props) {
         setLoading(props.status);
         // setFilteredArray(DataBuilder(data))
         if (!isLoading) {
-            setData(props.jsondata);
+            setData(props.data);
         }
     }, []);
 
@@ -32,13 +32,13 @@ export default function OnOSMmap(props) {
                 />
 
                 <MarkerClusterGroup showCoverageOnHover={true} disableClusteringAtZoom={14} maxClusterRadius={50}>
-                    <OsmMarkers jsondata={props.jsondata} status={props.status}/>
+                    <OsmMarkers data={props.data} status={props.status}/>
                 </MarkerClusterGroup>
 
                 <LocationButton map={map} />
                 <ScaleControl imperial={false} />
                 
-                <Location map={map} jsondata={props.jsondata} status={props.status}/>
+                {/* <Location map={map} data={props.data} status={props.status}/> */}
             </MapContainer>
         </>
     )

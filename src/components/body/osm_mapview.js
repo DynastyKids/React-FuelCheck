@@ -13,7 +13,7 @@ const SetRentacle = ({ bounds }) => {
     ));
 }
 
-function contentText(getBounds, jsondata) {
+function contentText(getBounds, data) {
     var returnText="Awaiting user movement"
     if (window.location.hash.length < 1) {
         returnText = `Please select a fuel type to viewing cheapest info in your mapview.`
@@ -26,8 +26,8 @@ function contentText(getBounds, jsondata) {
             var cheapestAddr="";
             var cheapestName="";
 
-            if(jsondata.length>0){
-                jsondata.forEach(element => {
+            if(data !== undefined && data.data.length>0){
+                data.data.forEach(element => {
                     if (!isNaN(element[fuelName[0][index]]) && element[fuelName[0][index]] !==null && element[fuelName[0][index]] >0 && element[fuelName[0][index]] < cheapestPrice && element.loc_lat<_northEast.lat &&  element.loc_lat>_southWest.lat && element.loc_lng > _southWest.lng && element.loc_lng < _northEast.lng) {
                         cheapestPrice=element[fuelName[0][index]]
                         cheapestName=element.name
@@ -56,7 +56,7 @@ function contentText(getBounds, jsondata) {
     return returnText;
 }
 
-const Location = ({ map, jsondata,status }) => {
+const Location = ({ map, data,status }) => {
     const [bounds, setBounds] = useState([])
 
     useEffect(() => {
@@ -70,7 +70,7 @@ const Location = ({ map, jsondata,status }) => {
             },
 
             onAdd: function () {
-                info.innerHTML = contentText(map.getBounds(),jsondata);
+                info.innerHTML = contentText(map.getBounds(),data);
                 return info;
             }
         })
@@ -79,7 +79,7 @@ const Location = ({ map, jsondata,status }) => {
 
         map.on('moveend zoomend', () => {
             const bounds = map.getBounds();
-            info.textContent = contentText(bounds,jsondata);
+            info.textContent = contentText(bounds,data);
             setBounds(b => [...b, bounds])
         });
 
