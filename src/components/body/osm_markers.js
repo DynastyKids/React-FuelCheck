@@ -20,21 +20,31 @@ export default function OsmMarkers(props) {
         if(props.data != undefined && !props.status){
         if (window.location.hash.length > 1 ) {
             // Set Fullname of fuel type
-            const fuelName = [["U91", "E10", "P95", "P98", "DL", "PDL", "B20", "LPG", "LAF"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Low Aromatic Fuel"]]
+            const fuelName = [["U91", "E10", "P95", "P98", "DL", "PDL", "B20", "LPG", "DLS"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Diesel & Premium Diesel"]]
             var index = 0;
             for (index = 0; index < fuelName[0].length; index++) {
                 if (window.location.hash.substring(1) === fuelName[0][index]) {
-                    break;
+                    props.data.data.forEach(fuelbrand => {
+                        fuelbrand.forEach(element => {
+                            if (element[window.location.hash.substring(1)] !== null && element[window.location.hash.substring(1)]) {
+                                newdata.push({ "price1": element[window.location.hash.substring(1)], "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": fuelName[1][index] + ": " + element[window.location.hash.substring(1)] })
+                            } else if (window.location.hash.substring(1) === "U91" && element["U91"]===null && element["LAF"] && element["LAF"] != null ){
+                                // Adding Opal 91 into Unleaded 91 (For NT only)
+                                newdata.push({ "price1": element["LAF"], "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": "Low Aromatic 91: " + element["LAF"] })
+                            } else if(window.location.hash.substring(1) === "DLS"){
+                                if (element["DL"]!==null && element["PDL"]!==null){
+                                    let priceInfo="Diesel: " + element["DL"]+"\nPremium Diesel: "+element["PDL"]
+                                    newdata.push({ "price1": element["DL"]+' / '+element["PDL"], "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo":  priceInfo})
+                                }else if(element["DL"]!==null){
+                                    newdata.push({ "price1": element["DL"], "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": "Diesel: " + element["DL"] })
+                                } else {
+                                    newdata.push({ "price1": element["PDL"], "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": "Premium Diesel: " + element["PDL"] })
+                                }
+                            }
+                        });
+                    });
                 }
             }
-            props.data.data.forEach(fuelbrand => {
-                fuelbrand.forEach(element => {
-                    if (element[window.location.hash.substring(1)] !== null && element[window.location.hash.substring(1)]) {
-                        newdata.push({ "price1": element[window.location.hash.substring(1)], "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": fuelName[1][index] + ": " + element[window.location.hash.substring(1)] })
-                    }
-                });
-            });
-            
         } else {
             props.data.data.forEach(fuelbrand => {
                 fuelbrand.forEach(element => {
@@ -118,7 +128,7 @@ function getIcon(brand, _size){
         })
     } else if (brand.includes("Coles")){
         icon = L.icon({
-            iconUrl: require('../../icons/caltex.png'),
+            iconUrl: require('../../icons/colesexp.png'),
             iconSize: [_size]
         })
     } else if (brand.includes("Costco")){
