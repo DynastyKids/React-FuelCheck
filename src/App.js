@@ -1,7 +1,7 @@
 import logo from './oil.png';
 import MainBody from './components/body/main';
 import * as React from 'react';
-import { Navbar, Nav, NavDropdown, Button, Container, Modal, Table, Form, FormCheck } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -20,49 +20,20 @@ export default function App() {
       const response = await fetch('https://fuel.danisty8.com/fuel');
       const json = await response.json();
       setRawdata(json);
+      var dataparsed = JSON.parse(JSON.stringify(json))
 
       // // Merge data into one large array
       var mergedArray = []
-      if (json.NSW) {
-        json.NSW.forEach(element => {
-          mergedArray.push(element)
-        });
-      }
-      if (json.TAS) {
-        json.TAS.forEach(element => {
-          mergedArray.push(element)
-        });
-      }
-      if (json.WA) {
-        json.WA.forEach(element => {
-          mergedArray.push(element)
-        });
-      }
-      if (json.NT) {
-        json.NT.forEach(element => {
-          mergedArray.push(element)
-        });
-      }
-      if (json.SA) {
-        json.SA.forEach(element => {
-          mergedArray.push(element)
-        });
-      }
-      if (json.QLD) {
-        json.QLD.forEach(element => {
-          mergedArray.push(element)
-        });
-      }
-      if (json.ACT) {
-        json.ACT.forEach(element => {
-          mergedArray.push(element)
-        });
-      }
-      if (json.VIC) {
-        json.VIC.forEach(element => {
-          mergedArray.push(element)
-        });
-      }
+      console.log(dataparsed)
+      var statelist = ['QLD','NSW','VIC','ACT','TAS','NT','SA','WA']
+      statelist.forEach(eachstate => {
+        if(json[eachstate]){
+          json[eachstate].forEach(element => {
+            mergedArray.push(element)
+          });
+        }
+      });
+
       var brands = []
       var reorderedData = []
       mergedArray.forEach(element => {
@@ -122,7 +93,7 @@ export default function App() {
                 <NavDropdown.Item href="#LPG">LPG</NavDropdown.Item>
                 <NavDropdown.Item href="/">Showing All</NavDropdown.Item>
               </NavDropdown>
-              {rawdata ? <CheapStations data={rawdata} /> : <></>}
+              <CheapStations/>
               {data ? <Selectbrand data={data}/> : <></>}
               {/* <TerminalGatePrice /> */}
               <About />

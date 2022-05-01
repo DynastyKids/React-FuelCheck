@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Nav, NavDropdown, Button, Modal, Table, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -97,29 +97,21 @@ export function Selectbrand(prop) {
     );
 }
 
-export function CheapStations(prop) {
+export function CheapStations() {
     const [show, setShow] = useState(false);
-    console.log(prop)
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     return (
         <>
             <Nav.Link href="#" onClick={handleShow}>Cheap Stations</Nav.Link>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} size="xl" fullscreen={true}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Cheap 5 Stations on each station</Modal.Title>
+                    <Modal.Title>Cheap Stations on each state</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <h5>QLD</h5>
-                    <h5>NSW</h5>
-                    <h5>ACT (7-11 Only)</h5>
-                    <h5>VIC (7-11 Only)</h5>
-                    <h5>NT</h5>
-                    <h5>SA</h5>
-                    <h5>TAS</h5>
-                    <h5>WA</h5>
+                    <iframe src="https://fuel.danisty8.com/cheaptable" frameBorder="0" style={{position: 'relative', height: '95%', width: '100%'}}/>
+                    {/* Fetching content of HTML */}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
@@ -129,10 +121,4 @@ export function CheapStations(prop) {
             </Modal>
         </>
     );
-}
-
-function bubblesortPrice(data, fueltype) {
-    const sortType = fueltype
-    const sortdata = data
-
 }
