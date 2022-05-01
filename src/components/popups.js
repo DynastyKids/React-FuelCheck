@@ -53,6 +53,10 @@ export function About() {
                     <br />North Territory's data are provided by <a href="https://myfuelnt.nt.gov.au/">MyFuel NT</a>
                     <br /><br />
                     Project Avaiable on: <a href="https://github.com/DynastyKids/React-FuelCheck">GitHub</a>
+                    <br/>
+                    <small>
+                        Disclaimer: The information provided by React-FuelCheck ('we', 'us' or 'our') on this website is for general information purposes. All information are provided in good faith but not representation in any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability or completeness of any information holding on this Site.
+                    </small>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
@@ -80,8 +84,7 @@ export function Selectbrand(prop) {
                         <Modal.Title>Set brand to display</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {prop.data.brands !== undefined ? prop.data.brands.map((row,index)=>(<Form.Check type="checkbox" label={row} key={index} />)):<></>}
-                        <Form.Check type="checkbox" label="Brand 1" />
+                    {prop.data.brands !== undefined ? prop.data.brands.map((row,index)=>(<Form.Check type="checkbox" label={row} key={index}/>)):<></>}
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="primary" onClick={handleClose} type="submit">
