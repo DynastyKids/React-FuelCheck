@@ -6,7 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function TerminalGatePrice() {
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -75,12 +74,10 @@ export function Selectbrand(prop) {
     const handleClose = (e) => {setShow(false)};
     const handleShow = (e) => setShow(true);
     const navigate = useNavigate();
-
     const OnFormSubmit = (e)=>{
         setShow(false);
         e.preventDefault();
         var brandopt=""
-        console.log(e.target.form)
         for (let index = 0; index < prop.data.brands.length; index++) {
             if(e.target.form['brand'+index].checked){
                 brandopt=brandopt+"1"
@@ -90,8 +87,7 @@ export function Selectbrand(prop) {
         }
         let brandpath = parseInt(brandopt,2).toString(16);
         setRedirectpath(parseInt(brandopt,2).toString(16))
-        console.log('/'+brandpath)
-        navigate('/'+brandpath)
+        navigate('/'+brandpath+window.location.hash)
     };
 
     return (
