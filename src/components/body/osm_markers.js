@@ -35,7 +35,7 @@ export default function OsmMarkers(props) {
                     for (let brandindex = 0; brandindex < props.data.data.length; brandindex++) {
                         var brandselect=parseInt(window.location.pathname.substring(1),16).toString(2)+""
                         while(brandselect.length<props.data.data.length){ brandselect="0"+brandselect; } 
-                        if(window.location.pathname==='/'){
+                        if(window.location.pathname.replace('/React-FuelCheck','')==='/'){
                             brandselect=""
                             for (let index = 0; index < props.data.data.length ; index++) {
                                 brandselect=brandselect+"1" // By default adding all stations
@@ -67,7 +67,7 @@ export default function OsmMarkers(props) {
             for (let brandindex = 0; brandindex < props.data.data.length; brandindex++) {
                 var brandselect=parseInt(window.location.pathname.substring(1),16).toString(2)+""
                 while(brandselect.length<props.data.data.length){ brandselect="0"+brandselect; } 
-                if(window.location.pathname==='/'){
+                if(window.location.pathname.replace('/React-FuelCheck','')==='/'){
                     brandselect=""
                     for (let index = 0; index < props.data.data.length ; index++) {
                         brandselect=brandselect+"1" // By default adding all stations
@@ -204,7 +204,7 @@ function getIcon(brand, _size){
             iconUrl: require('../../icons/nrma.png'),
             iconSize: [_size]
         })
-    } else if (brand.includes("PUMA") || brand.includes("puma")){
+    } else if (brand.includes("Puma") || brand.includes("PUMA")){
         icon = L.icon({
             iconUrl: require('../../icons/puma.png'),
             iconSize: [_size]
