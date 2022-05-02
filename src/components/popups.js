@@ -1,4 +1,6 @@
+import React from 'react'
 import { useState, useEffect } from "react";
+import { useNavigate, Router} from 'react-router-dom'
 import { Nav, NavDropdown, Button, Modal, Table, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -11,7 +13,6 @@ export default function TerminalGatePrice() {
     return (
         <>
             <NavDropdown.Item href="#" onClick={handleShow}>Terminal Gate Price</NavDropdown.Item>
-
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Terminal Gate Price</Modal.Title>
@@ -69,11 +70,29 @@ export function About() {
 }
 
 export function Selectbrand(prop) {
-    console.log(prop.data)
     const [show, setShow] = useState(false);
+    const [redirectpath, setRedirectpath] = useState(null);
+    const handleClose = (e) => {setShow(false)};
+    const handleShow = (e) => setShow(true);
+    const navigate = useNavigate();
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const OnFormSubmit = (e)=>{
+        setShow(false);
+        e.preventDefault();
+        var brandopt=""
+        console.log(e.target.form)
+        for (let index = 0; index < prop.data.brands.length; index++) {
+            if(e.target.form['brand'+index].checked){
+                brandopt=brandopt+"1"
+            }else{
+                brandopt=brandopt+"0"
+            }
+        }
+        let brandpath = parseInt(brandopt,2).toString(16);
+        setRedirectpath(parseInt(brandopt,2).toString(16))
+        console.log('/'+brandpath)
+        navigate('/'+brandpath)
+    };
 
     return (
         <>
@@ -84,18 +103,14 @@ export function Selectbrand(prop) {
                         <Modal.Title>Set brand to display</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                    {prop.data.brands !== undefined ? prop.data.brands.map((row,index)=>(<Form.Check type="checkbox" label={row} key={index}/>)):<></>}
+                        {prop.data.brands !== undefined ? prop.data.brands.map((row,index)=>(<Form.Check type="switch" label={row} key={index} id={'brand'+index} />)):<></>}
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={handleClose} type="submit">
-                            Confirm
-                        </Button>
-                        <Button variant="secondary" onClick={handleClose}>
-                            Close
-                        </Button>
+                        <Button variant="primary" onClick={OnFormSubmit} type="submit">Confirm</Button>
+                        <Button variant="secondary" onClick={handleClose}>Close</Button>
                     </Modal.Footer>
                 </Form>
-            </Modal>
+            </Modal> 
         </>
     );
 }
@@ -113,13 +128,10 @@ export function CheapStations() {
                     <Modal.Title>Cheap Stations on each state</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <iframe src="https://fuel.danisty8.com/cheaptable" frameBorder="0" style={{position: 'relative', height: '95%', width: '100%'}}/>
-                    {/* Fetching content of HTML */}
+                    <iframe src="https://fuel.danisty8.com/cheaptable" title="CheapestFuel" frameBorder="0" style={{position: 'relative', height: '95%', width: '100%'}}/>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
+                    <Button variant="secondary" onClick={handleClose}>Close</Button>
                 </Modal.Footer>
             </Modal>
         </>
