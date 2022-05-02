@@ -70,7 +70,6 @@ export function About() {
 
 export function Selectbrand(prop) {
     const [show, setShow] = useState(false);
-    const [redirectpath, setRedirectpath] = useState(null);
     const handleClose = (e) => {setShow(false)};
     const handleShow = (e) => setShow(true);
     const navigate = useNavigate();
@@ -86,8 +85,10 @@ export function Selectbrand(prop) {
             }
         }
         let brandpath = parseInt(brandopt,2).toString(16);
-        setRedirectpath(parseInt(brandopt,2).toString(16))
-        navigate('/'+brandpath+window.location.hash)
+        for (let index = brandpath.length; index < 11; index++) {
+            brandpath='0'+brandpath
+        }
+        navigate('/'+brandpath+window.location.hash,{replace: true})
     };
 
     return (

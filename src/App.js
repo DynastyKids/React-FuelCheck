@@ -42,10 +42,9 @@ export default function App() {
                 })
                 if (match === undefined) {
                     brands.push(element.brand)
-                    reorderedData.push([element])
-                } else {
-                    reorderedData[brands.indexOf(element.brand)].push(element)
+                    reorderedData.push([])
                 }
+                reorderedData[brands.indexOf(element.brand)].push(element)
             });
             setData({ "brands": brands, "data": reorderedData })
         } catch (error) {
@@ -68,7 +67,7 @@ export default function App() {
             // Not Receive the location info, use default
         })
     }
-
+    
     return (
         <div className="App">
             <Navbar expand="lg" variant="light" bg="light" sticky="top">

@@ -6,10 +6,18 @@ import 'react-leaflet-markercluster/dist/styles.min.css';
 import styles from "./osm_location-button.module.css";
 import L from "leaflet";
 import tileLayer from "./osm_tileLayer";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 export default function OsmMarkers(props) {
     const [data, setData] = React.useState([]);
     const [filteredData, setFilteredData] = React.useState([]);
+    const location = useLocation();
+
+    useEffect(() => {// Hook to detect if window has been changed, then re-render filterData
+        // filter the brand to be rendered
+        filterDatas()
+    }, [location]);
 
     const DisplayLineBreak = {
         whiteSpace: "pre-line"
@@ -24,8 +32,17 @@ export default function OsmMarkers(props) {
             var index = 0;
             for (index = 0; index < fuelName[0].length; index++) {
                 if (window.location.hash.substring(1) === fuelName[0][index]) {
-                    props.data.data.forEach(fuelbrand => {
-                        fuelbrand.forEach(element => {
+                    for (let brandindex = 0; brandindex < props.data.data.length; brandindex++) {
+                        var brandselect=parseInt(window.location.pathname.substring(1),16).toString(2)+""
+                        while(brandselect.length<props.data.data.length){ brandselect="0"+brandselect; } 
+                        if(window.location.pathname==='/'){
+                            brandselect=""
+                            for (let index = 0; index < props.data.data.length ; index++) {
+                                brandselect=brandselect+"1" // By default adding all stations
+                            }
+                        }         
+                        if (brandselect[brandindex] === '1') {
+                        props.data.data[brandindex].forEach(element => {
                             if (element[window.location.hash.substring(1)] !== null && element[window.location.hash.substring(1)]) {
                                 newdata.push({ "price1": element[window.location.hash.substring(1)], "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": fuelName[1][index] + ": " + element[window.location.hash.substring(1)] })
                             } else if (window.location.hash.substring(1) === "U91" && element["U91"]===null && element["LAF"] && element["LAF"] != null ){
@@ -42,12 +59,22 @@ export default function OsmMarkers(props) {
                                 }
                             }
                         });
-                    });
+                    }
+                    }
                 }
             }
         } else {
-            props.data.data.forEach(fuelbrand => {
-                fuelbrand.forEach(element => {
+            for (let brandindex = 0; brandindex < props.data.data.length; brandindex++) {
+                var brandselect=parseInt(window.location.pathname.substring(1),16).toString(2)+""
+                while(brandselect.length<props.data.data.length){ brandselect="0"+brandselect; } 
+                if(window.location.pathname==='/'){
+                    brandselect=""
+                    for (let index = 0; index < props.data.data.length ; index++) {
+                        brandselect=brandselect+"1" // By default adding all stations
+                    }
+                }
+                if (brandselect[brandindex] === '1') {
+                props.data.data[brandindex].forEach(element => {
                 let priceInfo = ''
                 if (element.U91 !== null && element.U91) { priceInfo += 'Unleaded 91: ' + element.U91 }
                 if (element.LAF !== null && element.LAF) { priceInfo += 'Low Aromatic Fuel (Opal 91): ' + element.LAF }
@@ -62,7 +89,8 @@ export default function OsmMarkers(props) {
                 if (element.LPG !== null && element.LPG) { priceInfo += '\nLPG: ' + element.LPG }
                 newdata.push({ "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": priceInfo })
                 });
-            });
+            }
+            }
         }
     }
         setFilteredData(newdata)
