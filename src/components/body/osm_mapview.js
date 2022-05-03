@@ -13,42 +13,53 @@ const SetRentacle = ({ bounds }) => {
     ));
 }
 
-function contentText(getBounds, jsondata) {
-    var returnText="Awaiting user movement"
+function contentText(getBounds, data) {
+    var returnText = "Loading data ..."
     if (window.location.hash.length < 1) {
         returnText = `Please select a fuel type to viewing cheapest info in your mapview.`
     }
     const fuelName = [["U91", "E10", "P95", "P98", "DL", "PDL", "B20", "LPG", "LAF"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Low Aromatic Fuel"]]
     const { _northEast, _southWest } = getBounds;
     for (let index = 0; index < fuelName[0].length; index++) {
-        if (window.location.hash.substring(1) === fuelName[0][index]) {
-            var cheapestPrice=999;
-            var cheapestAddr="";
-            var cheapestName="";
+        if (window.location.hash.substring(1) === fuelName[0][index] && data.data !== undefined) {
+            var brandselect = ""
+            if (window.location.pathname === '/') {
+                for (let index = 0; index < data.brands.length; index++)
+                    brandselect = brandselect + "1" // By default adding all stations
+            } else {
+                brandselect = parseInt(window.location.pathname.replace("React-FuelCheck/", "").substring(1), 16).toString(2) + ""
+                while (brandselect.length < data.brands.length) { brandselect = "0" + brandselect; }
+            }
 
-            if(jsondata.length>0){
-                jsondata.forEach(element => {
-                    if (!isNaN(element[fuelName[0][index]]) && element[fuelName[0][index]] !==null && element[fuelName[0][index]] >0 && element[fuelName[0][index]] < cheapestPrice && element.loc_lat<_northEast.lat &&  element.loc_lat>_southWest.lat && element.loc_lng > _southWest.lng && element.loc_lng < _northEast.lng) {
-                        cheapestPrice=element[fuelName[0][index]]
-                        cheapestName=element.name
-                        if(element.state === "NSW" || element.state === "TAS"){
-                            cheapestAddr=element.address
-                        }else if(element.state === "SA"){
-                            cheapestAddr=element.address+`, `+element.state+`, `+element.postcode
-                        }else{
-                            cheapestAddr=element.address
-                            if(element.suburb !== null){
-                                cheapestAddr=cheapestAddr+`, `+element.suburb
-                            }
-                            cheapestAddr=cheapestAddr+`, `+element.state
-                            if(element.postcode !== null){
-                                cheapestAddr=cheapestAddr+` `+element.postcode
-                            }
+            // Checking website URLhash & Check loading array has "data" and "brandinfo"
+            var cheapestElement = data.data[0][0];  // Initial default element
+            cheapestElement[fuelName[0][index]] = 999 // Set initial price easy to beat
+
+            for (let dataindex = 0; dataindex < data.data.length; dataindex++) {
+                if (brandselect[dataindex] === 0 || brandselect[dataindex] === '0') // based on brandselect, if brand is not selected, skipped
+                    continue
+                
+                data.data[dataindex].forEach(element => {
+                    if (element.loc_lat < _northEast.lat && element.loc_lat > _southWest.lat && element.loc_lng > _southWest.lng && element.loc_lng < _northEast.lng) { // Check element geolocation in range
+                        if (!isNaN(element[fuelName[0][index]]) && element[fuelName[0][index]] !==null && cheapestElement[fuelName[0][index]] > element[fuelName[0][index]]) { // Check if fuel price does exist & cheaper than last one
+                            cheapestElement = element
                         }
                     }
                 });
-                returnText = `Cheapest ` + fuelName[1][index] + ` at `+cheapestName+`, Price:`+cheapestPrice+`, Address:`+cheapestAddr
             }
+
+            // Building full address based on records
+            var cheapestAddr = cheapestElement.address
+            if (cheapestElement.state !== "NSW" && cheapestElement.state !== "TAS") {
+                if (cheapestElement.suburb !== null) {
+                    cheapestAddr = cheapestAddr + `, ` + cheapestElement.suburb
+                }
+                cheapestAddr = cheapestAddr + `, ` + cheapestElement.state
+                if (cheapestElement.postcode !== null) {
+                    cheapestAddr = cheapestAddr + ` ` + cheapestElement.postcode
+                }
+            }
+            returnText = `Cheapest ` + fuelName[1][index] + ` at ` + cheapestElement.name + `, Price:` + cheapestElement[fuelName[0][index]] + `, Address:` + cheapestAddr
             break;
         }
     }
@@ -56,7 +67,7 @@ function contentText(getBounds, jsondata) {
     return returnText;
 }
 
-const Location = ({ map, jsondata,status }) => {
+const Location = ({ map, data, status }) => {
     const [bounds, setBounds] = useState([])
 
     useEffect(() => {
@@ -65,12 +76,10 @@ const Location = ({ map, jsondata,status }) => {
         const info = L.DomUtil.create('div', 'legend');
 
         const positon = L.Control.extend({
-            options: {
-                position: 'bottomleft'
-            },
+            options: { position: 'bottomleft' },
 
             onAdd: function () {
-                info.innerHTML = contentText(map.getBounds(),jsondata);
+                info.innerHTML = contentText(map.getBounds(), data);
                 return info;
             }
         })
@@ -79,11 +88,11 @@ const Location = ({ map, jsondata,status }) => {
 
         map.on('moveend zoomend', () => {
             const bounds = map.getBounds();
-            info.textContent = contentText(bounds,jsondata);
+            info.textContent = contentText(bounds, data);
             setBounds(b => [...b, bounds])
         });
 
-    }, [map,status])
+    }, [map, status])
 
     return bounds?.length <= 0 ? <SetRentacle bounds={bounds} /> : null;
 }
