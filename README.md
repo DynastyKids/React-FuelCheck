@@ -7,7 +7,12 @@ This is an unofficial web app, and is in no way connected with the any state Gov
 
 # Updates
 
-## April Updates
+## May 2022 Updates
+ - Adding Brand selections on navigation bar
+ - Brand selection will affect user's view and current cheapest station text in view
+ - Merging Opal 91 (Low Aromatic Fuel) with showing together with standard unleaded 91
+ - Fixing some icons showing issues
+## April 2022 Updates
  - Adding fuel type filter on navigation bar
  - Adding some stations for State Gov API unavailable area (VIC, QLD and ACT) through 3rd sources.
  - Adding 91 Opal (Low Aromatic Fuel) display support [#3](https://github.com/DynastyKids/React-FuelCheck/pull/3)
