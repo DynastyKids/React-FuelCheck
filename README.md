@@ -2,6 +2,8 @@
 
 This is an react build application for checking fuel prices at servos across NSW, TAS and WA currently.
 
+[![pages-build-deployment](https://github.com/DynastyKids/React-FuelCheck/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/DynastyKids/React-FuelCheck/actions/workflows/pages/pages-build-deployment)[![Node.js CI](https://github.com/DynastyKids/React-FuelCheck/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/DynastyKids/React-FuelCheck/actions/workflows/node.js.yml)[![Dependency Review](https://github.com/DynastyKids/React-FuelCheck/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/DynastyKids/React-FuelCheck/actions/workflows/dependency-review.yml)
+
 ## About
 This is an unofficial web app, and is in no way connected with the any state Government. Data are corrected when pulled and synchorized at certain interval. 
 
