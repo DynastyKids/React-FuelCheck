@@ -37,8 +37,7 @@ export default function OnOSMmap(props) {
 
                 <LocationButton map={map} />
                 <ScaleControl imperial={false} />
-                
-                {/* <Location map={map} data={props.data} status={props.status}/> */}
+                <Location map={map} data={props.data} status={props.status}/>
             </MapContainer>
         </>
     )

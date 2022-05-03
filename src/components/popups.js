@@ -88,7 +88,7 @@ export function Selectbrand(prop) {
         for (let index = brandpath.length; index < 11; index++) {
             brandpath='0'+brandpath
         }
-        navigate('/'+brandpath+window.location.hash,{replace: true})
+        navigate('/React-FuelCheck/'+brandpath+window.location.hash,{replace: true})
     };
 
     return (

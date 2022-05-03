@@ -65,9 +65,9 @@ export default function OsmMarkers(props) {
             }
         } else {
             for (let brandindex = 0; brandindex < props.data.data.length; brandindex++) {
-                var brandselect=parseInt(window.location.pathname.substring(1),16).toString(2)+""
+                var brandselect=parseInt(window.location.pathname.replace('/React-FuelCheck','').substring(1),16).toString(2)+""
                 while(brandselect.length<props.data.data.length){ brandselect="0"+brandselect; } 
-                if(window.location.pathname.replace('/React-FuelCheck','')==='/'){
+                if(window.location.pathname==='/'){
                     brandselect=""
                     for (let index = 0; index < props.data.data.length ; index++) {
                         brandselect=brandselect+"1" // By default adding all stations

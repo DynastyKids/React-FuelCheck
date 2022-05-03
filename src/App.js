@@ -98,7 +98,7 @@ export default function App() {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            <MainBody Lat={lat} Lng={lng} Zoom={zoom} data={data} status={isLoading} />
+            <MainBody Lat={lat} Lng={lng} Zoom={zoom} data={data} rawdata={rawdata} status={isLoading} />
         </div>
     );
 }
