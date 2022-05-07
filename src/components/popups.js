@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from "react";
 import { useNavigate, Router} from 'react-router-dom'
-import { Nav, NavDropdown, Button, Modal, Table, Form } from 'react-bootstrap';
+import { Nav, Col, NavDropdown, Button, Modal, Table, Form, Row } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function TerminalGatePrice() {
@@ -100,7 +100,11 @@ export function Selectbrand(prop) {
                         <Modal.Title>Set brand to display</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        {prop.data.brands !== undefined ? prop.data.brands.map((row,index)=>(<Form.Check type="switch" label={row} key={index} id={'brand'+index} />)):<></>}
+                        <Row className="justify-content-md-center">
+                        {prop.data.brands !== undefined ? prop.data.brands.map((row,index)=>(
+                        <Col md="6"><Form.Check type="switch" label={row} key={index} id={'brand'+index} /></Col>
+                        )):<></>}
+                        </Row>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="primary" onClick={OnFormSubmit} type="submit">Confirm</Button>
