@@ -1,6 +1,6 @@
 {
-  "name": "React - FuelCheck",
-  "homepage": "https://dynastykids.github.io/React-FuelCheck/",
+  "name": "React-FuelCheck",
+  "homepage": "https://dynastykids.github.io/React-FuelCheck",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

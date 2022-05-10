@@ -72,7 +72,7 @@ export default function App() {
         <div className="App">
             <Navbar expand="lg" variant="light" bg="light" sticky="top">
                 <Container fluid>
-                    <Navbar.Brand href="/">
+                    <Navbar.Brand href="/React-FuelCheck">
                         <img alt="" src={logo} width="30" height="30" className="d-inline-block align-top" />{' '}
                         Fuel Price Check
                     </Navbar.Brand>
@@ -88,7 +88,7 @@ export default function App() {
                                 <NavDropdown.Item href="#PDL">Premium Diesel</NavDropdown.Item>
                                 <NavDropdown.Item href="#DLS">Diesel + Premium Diesel </NavDropdown.Item>
                                 <NavDropdown.Item href="#LPG">LPG</NavDropdown.Item>
-                                <NavDropdown.Item href="/">Showing All</NavDropdown.Item>
+                                <NavDropdown.Item href="/React-FuelCheck">Showing All</NavDropdown.Item>
                             </NavDropdown>
                             <CheapStations />
                             {data ? <Selectbrand data={data} /> : <></>}
