@@ -88,8 +88,30 @@ export function Selectbrand(prop) {
         for (let index = brandpath.length; index < 11; index++) {
             brandpath='0'+brandpath
         }
-        navigate('/React-FuelCheck/'+brandpath+window.location.hash,{replace: true})
+        if(window.location.search === "") {
+            navigate(window.location.pathname+"?b="+brandpath,{replace: true})
+        } else{
+            //找出已有参数
+            var searchparams = window.location.search
+            const regex = /b=\d+/i;
+            searchparams=searchparams.replace(regex,'b='+brandpath)
+            navigate(window.location.pathname+""+searchparams,{replace: true})
+        }
     };
+
+    const OnClickAllFuelBrand=(e)=>{
+        setShow(false);
+        e.preventDefault();
+        if(window.location.search === "") {
+            navigate(window.location.pathname,{replace: true})
+        } else{
+            var searchparams = window.location.search
+            const regex = /b=\d+/i;
+            searchparams=searchparams.replace(regex,'')
+            searchparams=searchparams.replace("&","")
+            navigate(window.location.pathname+""+searchparams,{replace: true})
+        }
+    }
 
     return (
         <>
@@ -102,11 +124,12 @@ export function Selectbrand(prop) {
                     <Modal.Body>
                         <Row className="justify-content-md-center">
                         {prop.data.brands !== undefined ? prop.data.brands.map((row,index)=>(
-                        <Col md="6"><Form.Check type="switch" label={row} key={index} id={'brand'+index} /></Col>
+                        <Col md="6" key={'brand'+index}><Form.Check type="switch" label={row} key={'brand'+index} id={'brand'+index} /></Col>
                         )):<></>}
                         </Row>
                     </Modal.Body>
                     <Modal.Footer>
+                        <Button variant="warning" onClick={OnClickAllFuelBrand}>Show All stations</Button>
                         <Button variant="primary" onClick={OnFormSubmit} type="submit">Confirm</Button>
                         <Button variant="secondary" onClick={handleClose}>Close</Button>
                     </Modal.Footer>
