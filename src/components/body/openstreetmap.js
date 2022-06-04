@@ -32,7 +32,7 @@ export default function OnOSMmap(props) {
                 />
 
                 <MarkerClusterGroup showCoverageOnHover={true} disableClusteringAtZoom={14} maxClusterRadius={50}>
-                    <OsmMarkers data={props.data} status={props.status}/>
+                    <OsmMarkers data={props.data} status={props.status} userfuel={props.userfuel}/>
                 </MarkerClusterGroup>
 
                 <LocationButton map={map} />

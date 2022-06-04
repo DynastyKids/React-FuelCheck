@@ -12,12 +12,14 @@ import { useLocation } from "react-router-dom";
 export default function OsmMarkers(props) {
     const [data, setData] = React.useState([]);
     const [filteredData, setFilteredData] = React.useState([]);
+    const [fueltype, setFueltype] = React.useState(props.userfuel);
     const location = useLocation();
 
     useEffect(() => {// Hook to detect if window has been changed, then re-render filterData
         // filter the brand to be rendered
+        setFueltype(props.userfuel);
         filterDatas()
-    }, [location]);
+    }, [location,props.userfuel]);
 
     const DisplayLineBreak = {
         whiteSpace: "pre-line"
@@ -25,77 +27,83 @@ export default function OsmMarkers(props) {
 
     const filterDatas = () => {
         var newdata = []
-        var windowrawpath = window.location.pathname.replace('/React-FuelCheck', '')
         const fuelName = [["U91", "E10", "P95", "P98", "DL", "PDL", "B20", "LPG", "DLS"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Diesel & Premium Diesel"]] // Set Fullname of fuel type
-        if (props.data != undefined && !props.status) {
-            if (window.location.hash.length > 1) {
-                for (var index = 0; index < fuelName[0].length; index++) {
-                    if (window.location.hash.substring(1) === fuelName[0][index]) {
-                        for (let brandindex = 0; brandindex < props.data.data.length; brandindex++) {
-                            var brandselect = parseInt(windowrawpath.substring(1), 16).toString(2) + ""
-                            while (brandselect.length < props.data.data.length) { brandselect = "0" + brandselect; }
-                            if (windowrawpath < 2) {
-                                brandselect = ""
-                                for (let index = 0; index < props.data.data.length; index++) {
-                                    brandselect = brandselect + "1" // By default adding all stations
-                                }
-                            }
-                            if (brandselect[brandindex] === '1') {
-                                props.data.data[brandindex].forEach(element => {
-                                    if (element[window.location.hash.substring(1)] !== null && element[window.location.hash.substring(1)]) {
-                                        newdata.push({ "price1": element[window.location.hash.substring(1)], "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": fuelName[1][index] + ": " + element[window.location.hash.substring(1)] })
-                                    } else if (window.location.hash.substring(1) === "U91" && element["U91"] === null && element["LAF"] && element["LAF"] != null) {
-                                        // Adding Opal 91 into Unleaded 91 (For NT only)
-                                        newdata.push({ "price1": element["LAF"], "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": "Low Aromatic 91: " + element["LAF"] })
-                                    } else if (window.location.hash.substring(1) === "DLS") {
-                                        if (element["DL"] !== null && element["PDL"] !== null) {
-                                            let priceInfo = "Diesel: " + element["DL"] + "\nPremium Diesel: " + element["PDL"]
-                                            newdata.push({ "price1": element["DL"] + ' / ' + element["PDL"], "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": priceInfo })
-                                        } else if (element["DL"] !== null) {
-                                            newdata.push({ "price1": element["DL"], "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": "Diesel: " + element["DL"] })
-                                        } else {
-                                            newdata.push({ "price1": element["PDL"], "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": "Premium Diesel: " + element["PDL"] })
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    }
+        // Checking for parameters
+        var params=[]
+        const selectedfuel=(element) => element === props.userfuel;
+        var selectedbrand=""
+        if(window.location.search.length>1){
+            params= window.location.search.substring(1).split('&');
+            for(var i=0;i<params.length;i++){
+                if(params[i].substring(0,1) === "b"){
+                    selectedbrand=params[i].substring(2);
                 }
-            } else {
-                for (let brandindex = 0; brandindex < props.data.data.length; brandindex++) {
-                    var brandselect = parseInt(windowrawpath.substring(1), 16).toString(2) + ""
-                    while (brandselect.length < props.data.data.length) { brandselect = "0" + brandselect; }
-                    if (windowrawpath.length < 2) {
-                        brandselect = ""
-                        for (let index = 0; index < props.data.data.length; index++) {
-                            brandselect = brandselect + "1" // By default adding all stations
-                        }
-                    }
-                    if (brandselect[brandindex] === '1') {
-                        props.data.data[brandindex].forEach(element => {
-                            let priceInfo = ''
-                            if (element.U91 !== null && element.U91) { priceInfo += 'Unleaded 91: ' + element.U91 }
-                            if (element.LAF !== null && element.LAF) { priceInfo += 'Low Aromatic Fuel (Opal 91): ' + element.LAF }
-                            if (element.E10 !== null && element.E10) { priceInfo += '\nEthanol 94 (E10):' + element.E10 }
-                            if (element.P95 !== null && element.P95) { priceInfo += '\nPremium Unleaded 95: ' + element.P95 }
-                            if (element.P98 !== null && element.P98) { priceInfo += '\nPremium Unleaded 98: ' + element.P98 }
-                            priceInfo += '\n';
-                            if (element.DL !== null && element.DL) { priceInfo += '\nDiesel: ' + element.DL }
-                            if (element.PDL !== null && element.PDL) { priceInfo += '\nPremium Diesel: ' + element.PDL }
-                            if (element.B20 !== null && element.B20) { priceInfo += '\nBioDiesel 20: ' + element.B20 }
-                            priceInfo += '\n'
-                            if (element.LPG !== null && element.LPG) { priceInfo += '\nLPG: ' + element.LPG }
-                            newdata.push({ "address": element.address, "suburb": element.suburb, "state": element.state, "postcode": element.postcode, "brand": element.brand, "loc_lat": element.loc_lat, "loc_lng": element.loc_lng, "name": element.name, "priceInfo": priceInfo })
-                        });
-                    }
+            }
+            
+            if(selectedbrand.length>0 && props.data !== undefined && !props.status){
+                selectedbrand = parseInt(selectedbrand, 16).toString(2)
+                while (selectedbrand.length < props.data.data.length) { 
+                    selectedbrand = "0" + String(selectedbrand); 
                 }
+            }
+        }
+
+        if (props.data !== undefined && !props.status) {
+            // Props.data -> Brands+fuel price
+            // console.log(props) // Users Choosed fuel type
+            for(let brandid=0;brandid<props.data.data.length;brandid++){
+                // 增加if语句，如果有选品牌但是没选中则跳过(非0000记为1111)
+                console.log(selectedbrand,selectedbrand[brandid]);
+                if(selectedbrand[brandid] === '0'){
+                    continue;
+                }
+                console.log("Continue")
+                // Each Brands station
+                props.data.data[brandid].forEach(eachstation =>{
+                    //如果选择了油品，则检测站点是否有对应油品，如果有则加入array，没有则跳过
+                    if(props.userfuel==="All"){
+                        //Adding all stations
+                        let priceInfo = ''
+                        if (eachstation.U91 !== null) { priceInfo += 'Unleaded 91: ' + eachstation.U91 }
+                        if (eachstation.LAF !== null) { priceInfo += 'Low Aromatic Fuel (Opal 91): ' + eachstation.LAF }
+                        if (eachstation.E10 !== null) { priceInfo += '\nEthanol 94 (E10):' + eachstation.E10 }
+                        if (eachstation.P95 !== null) { priceInfo += '\nPremium Unleaded 95: ' + eachstation.P95 }
+                        if (eachstation.P98 !== null) { priceInfo += '\nPremium Unleaded 98: ' + eachstation.P98 }
+                        priceInfo += '\n';
+                        if (eachstation.DL !== null) { priceInfo += '\nDiesel: ' + eachstation.DL }
+                        if (eachstation.PDL !== null) { priceInfo += '\nPremium Diesel: ' + eachstation.PDL }
+                        if (eachstation.B20 !== null && eachstation.B20) { priceInfo += '\nBioDiesel 20: ' + eachstation.B20 }
+                        if (eachstation.LPG !== null) { priceInfo += '\n\nLPG: ' + eachstation.LPG }
+                        newdata.push({ "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": priceInfo })
+                    } else if(eachstation.state == "NT" && props.userfuel === "U91"){
+                        if (eachstation["U91"] === null && eachstation["LAF"] !== null) {
+                            newdata.push({ "price1": eachstation["LAF"], "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": "Low Aromatic 91: " + eachstation["LAF"] })
+                        }
+                    }else if (props.userfuel === "DLS") {
+                        var priceInfo=""
+                        var pricetag = ""
+                        if(eachstation["DL"] !== null){
+                            priceInfo = "Diesel: " + eachstation["DL"]+"\n"
+                            pricetag=eachstation["DL"]+"   "
+                        }
+                        if(eachstation["PDL"] !== null){
+                            priceInfo = "Premium: " + eachstation["PDL"]
+                            pricetag=eachstation["PDL"]
+                        }
+                        newdata.push({ "price1": pricetag, "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": priceInfo })
+                    }else if(eachstation[props.userfuel] !== null){
+                        // Adding selected fuel only
+                        newdata.push({ "price1": eachstation[props.userfuel], "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": fuelName[1][fuelName[0].findIndex(selectedfuel)] + ": " + eachstation[props.userfuel] })
+                    }
+                    
+                });
+                // Using Regex to find brand infos
             }
         }
         setFilteredData(newdata)
     }
 
-    window.addEventListener("hashchange", function () {
+    window.addEventListener("locationchange", function () {
         filterDatas()
     });
 
