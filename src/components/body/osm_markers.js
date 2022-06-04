@@ -73,11 +73,9 @@ export default function OsmMarkers(props) {
                         if (eachstation.B20 !== null && eachstation.B20) { priceInfo += '\nBioDiesel 20: ' + eachstation.B20 }
                         if (eachstation.LPG !== null) { priceInfo += '\n\nLPG: ' + eachstation.LPG }
                         newdata.push({ price1:null,"address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": priceInfo })
-                    } else if(eachstation.state === "NT" && props.userfuel === "U91"){
-                        if (eachstation["U91"] === null && eachstation["LAF"] !== null) {
-                            newdata.push({ "price1": eachstation["LAF"], "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": "Low Aromatic 91: " + eachstation["LAF"] })
-                        }
-                    }else if (props.userfuel === "P9X") {
+                    } else if(eachstation.state === "NT" && props.userfuel === "U91" && eachstation["U91"] === null && eachstation["LAF"] !== null){
+                        newdata.push({ "price1": eachstation["LAF"], "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": "Low Aromatic 91: " + eachstation["LAF"] })
+                    }else if (props.userfuel === "P9X" && eachstation["P98"] !== null && eachstation["P95"] !== null) {
                         var priceInfo=""
                         var pricetag = ""
                         if(eachstation["P98"] !== null){
@@ -89,19 +87,19 @@ export default function OsmMarkers(props) {
                             pricetag=eachstation["P95"]
                         }
                         newdata.push({ "price1": pricetag, "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": priceInfo })
-                    }else if (props.userfuel === "DLS") {
+                    }else if (props.userfuel === "DLS" && eachstation["PDL"] !== null && eachstation["DL"] !== null) {
                         var priceInfo=""
                         var pricetag = ""
-                        if(eachstation["PDL"] !== null){
+                        if(eachstation["PDL"] !== null && eachstation["PDL"]){
                             priceInfo = "Premium: " + eachstation["PDL"]
                             pricetag=eachstation["PDL"]
                         }
-                        if(eachstation["DL"] !== null){
+                        if(eachstation["DL"] !== null && eachstation["DL"]){
                             priceInfo = "Diesel: " + eachstation["DL"]+"\n"+priceInfo
                             pricetag=eachstation["DL"]
                         }
                         newdata.push({ "price1": pricetag, "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": priceInfo })
-                    }else if(eachstation[props.userfuel] !== null){
+                    }else if(eachstation[props.userfuel] !== null && eachstation[props.userfuel]){
                         // Adding selected fuel only
                         newdata.push({ "price1": eachstation[props.userfuel], "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": fuelName[1][fuelName[0].findIndex(selectedfuel)] + ": " + eachstation[props.userfuel] })
                     }
