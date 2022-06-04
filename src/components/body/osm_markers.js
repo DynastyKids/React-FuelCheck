@@ -27,7 +27,7 @@ export default function OsmMarkers(props) {
 
     const filterDatas = () => {
         var newdata = []
-        const fuelName = [["U91", "E10", "P95", "P98", "DL", "PDL", "B20", "LPG", "DLS"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Diesel & Premium Diesel"]] // Set Fullname of fuel type
+        const fuelName = [["U91", "E10", "P95", "P98","P9X", "DL", "PDL", "B20", "LPG", "DLS"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Premium Unleaded 95 or 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Diesel & Premium Diesel"]] // Set Fullname of fuel type
         // Checking for parameters
         var params=[]
         const selectedfuel=(element) => element === props.userfuel;
@@ -72,21 +72,33 @@ export default function OsmMarkers(props) {
                         if (eachstation.PDL !== null) { priceInfo += '\nPremium Diesel: ' + eachstation.PDL }
                         if (eachstation.B20 !== null && eachstation.B20) { priceInfo += '\nBioDiesel 20: ' + eachstation.B20 }
                         if (eachstation.LPG !== null) { priceInfo += '\n\nLPG: ' + eachstation.LPG }
-                        newdata.push({ "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": priceInfo })
+                        newdata.push({ price1:null,"address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": priceInfo })
                     } else if(eachstation.state === "NT" && props.userfuel === "U91"){
                         if (eachstation["U91"] === null && eachstation["LAF"] !== null) {
                             newdata.push({ "price1": eachstation["LAF"], "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": "Low Aromatic 91: " + eachstation["LAF"] })
                         }
+                    }else if (props.userfuel === "P9X") {
+                        var priceInfo=""
+                        var pricetag = ""
+                        if(eachstation["P98"] !== null){
+                            priceInfo = "Premium Unloaded 98: " + eachstation["P98"]
+                            pricetag=eachstation["P98"]
+                        }
+                        if(eachstation["P95"] !== null){
+                            priceInfo = "Premium Unloaded 95: " + eachstation["P95"]+"\n"+priceInfo
+                            pricetag=eachstation["P95"]
+                        }
+                        newdata.push({ "price1": pricetag, "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": priceInfo })
                     }else if (props.userfuel === "DLS") {
                         var priceInfo=""
                         var pricetag = ""
-                        if(eachstation["DL"] !== null){
-                            priceInfo = "Diesel: " + eachstation["DL"]+"\n"
-                            pricetag=eachstation["DL"]+"   "
-                        }
                         if(eachstation["PDL"] !== null){
                             priceInfo = "Premium: " + eachstation["PDL"]
                             pricetag=eachstation["PDL"]
+                        }
+                        if(eachstation["DL"] !== null){
+                            priceInfo = "Diesel: " + eachstation["DL"]+"\n"+priceInfo
+                            pricetag=eachstation["DL"]
                         }
                         newdata.push({ "price1": pricetag, "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": priceInfo })
                     }else if(eachstation[props.userfuel] !== null){
@@ -116,7 +128,7 @@ export default function OsmMarkers(props) {
         <>
             {filteredData.map(({ brand, name, loc_lat, loc_lng, address, suburb, state, postcode, priceInfo, price1 }, index) => (
                 <Marker key={index} position={[loc_lat, loc_lng]} icon={getIcon(brand, 30)}>
-                    {window.location.hash.length > 1 ? <Tooltip direction="top" opacity={1} permanent>{price1}</Tooltip> : <></>}
+                    {price1 !== null? <Tooltip direction="top" opacity={1} permanent>{price1}</Tooltip> : <></>}
                     <Popup><h5>{name}</h5>
                         <p><b>Address:</b> {address} {suburb != null && suburb ? ", " + suburb : ""} {state != null && state ? ", " + state : ""}{postcode != null && postcode ? " " + postcode : ""}</p>
                         <div style={DisplayLineBreak}>

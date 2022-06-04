@@ -93,10 +93,14 @@ export default function App() {
                                 <NavDropdown.Item eventKey="E10">Ethanol 94 / E10</NavDropdown.Item>
                                 <NavDropdown.Item eventKey="P95">Premium 95</NavDropdown.Item>
                                 <NavDropdown.Item eventKey="P98">Premium 98</NavDropdown.Item>
+                                <NavDropdown.Item eventKey="P9X">Premium 95 / 98</NavDropdown.Item>
+                                <NavDropdown.Divider />
                                 <NavDropdown.Item eventKey="DL">Diesel</NavDropdown.Item>
                                 <NavDropdown.Item eventKey="PDL">Premium Diesel</NavDropdown.Item>
                                 <NavDropdown.Item eventKey="DLS">Diesel + Premium Diesel </NavDropdown.Item>
+                                <NavDropdown.Divider />
                                 <NavDropdown.Item eventKey="LPG">LPG</NavDropdown.Item>
+                                <NavDropdown.Divider />
                                 <NavDropdown.Item eventKey="All">Showing All</NavDropdown.Item>
                             </NavDropdown>
                             <CheapStations />
