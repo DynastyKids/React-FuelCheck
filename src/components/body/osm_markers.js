@@ -53,11 +53,9 @@ export default function OsmMarkers(props) {
             // console.log(props) // Users Choosed fuel type
             for(let brandid=0;brandid<props.data.data.length;brandid++){
                 // 增加if语句，如果有选品牌但是没选中则跳过(非0000记为1111)
-                console.log(selectedbrand,selectedbrand[brandid]);
                 if(selectedbrand[brandid] === '0'){
                     continue;
                 }
-                console.log("Continue")
                 // Each Brands station
                 props.data.data[brandid].forEach(eachstation =>{
                     //如果选择了油品，则检测站点是否有对应油品，如果有则加入array，没有则跳过
@@ -65,7 +63,7 @@ export default function OsmMarkers(props) {
                         //Adding all stations
                         let priceInfo = ''
                         if (eachstation.U91 !== null) { priceInfo += 'Unleaded 91: ' + eachstation.U91 }
-                        if (eachstation.LAF !== null) { priceInfo += 'Low Aromatic Fuel (Opal 91): ' + eachstation.LAF }
+                        if (eachstation.LAF !== null && eachstation.LAF) { priceInfo += 'Low Aromatic Fuel (Opal 91): ' + eachstation.LAF }
                         if (eachstation.E10 !== null) { priceInfo += '\nEthanol 94 (E10):' + eachstation.E10 }
                         if (eachstation.P95 !== null) { priceInfo += '\nPremium Unleaded 95: ' + eachstation.P95 }
                         if (eachstation.P98 !== null) { priceInfo += '\nPremium Unleaded 98: ' + eachstation.P98 }
@@ -75,7 +73,7 @@ export default function OsmMarkers(props) {
                         if (eachstation.B20 !== null && eachstation.B20) { priceInfo += '\nBioDiesel 20: ' + eachstation.B20 }
                         if (eachstation.LPG !== null) { priceInfo += '\n\nLPG: ' + eachstation.LPG }
                         newdata.push({ "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": priceInfo })
-                    } else if(eachstation.state == "NT" && props.userfuel === "U91"){
+                    } else if(eachstation.state === "NT" && props.userfuel === "U91"){
                         if (eachstation["U91"] === null && eachstation["LAF"] !== null) {
                             newdata.push({ "price1": eachstation["LAF"], "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": "Low Aromatic 91: " + eachstation["LAF"] })
                         }
@@ -95,7 +93,6 @@ export default function OsmMarkers(props) {
                         // Adding selected fuel only
                         newdata.push({ "price1": eachstation[props.userfuel], "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": fuelName[1][fuelName[0].findIndex(selectedfuel)] + ": " + eachstation[props.userfuel] })
                     }
-                    
                 });
                 // Using Regex to find brand infos
             }
