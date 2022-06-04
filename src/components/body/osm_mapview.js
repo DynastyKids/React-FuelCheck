@@ -13,24 +13,33 @@ const SetRentacle = ({ bounds }) => {
     ));
 }
 
-function contentText(getBounds, data) {
-    var returnText = "Loading data ..."
-    if (window.location.hash.length < 1) {
-        returnText = `Please select a fuel type to viewing cheapest info in your mapview.`
+function contentText(getBounds, data,userfuel) {
+    var returnText = ""
+    if (userfuel === "All") {
+        return `Please select a fuel type to viewing cheapest info in your mapview.`
     }
-    const fuelName = [["U91", "E10", "P95", "P98", "DL", "PDL", "B20", "LPG", "LAF"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Low Aromatic Fuel"]]
+    const fuelName = [["U91", "E10", "P95", "P98","P9X", "DL", "PDL", "B20", "LPG", "DLS"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Premium Unleaded 95 or 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Diesel & Premium Diesel"]]
     const { _northEast, _southWest } = getBounds;
     for (let index = 0; index < fuelName[0].length; index++) {
-        if (window.location.hash.substring(1) === fuelName[0][index] && data.data !== undefined) {
-            var brandselect = ""
-            if (window.location.pathname === '/') {
-                for (let index = 0; index < data.brands.length; index++)
-                    brandselect = brandselect + "1" // By default adding all stations
-            } else {
-                brandselect = parseInt(window.location.pathname.replace("React-FuelCheck/", "").substring(1), 16).toString(2) + ""
-                while (brandselect.length < data.brands.length) { brandselect = "0" + brandselect; }
-            }
+        if (userfuel !== "All" && data.data !== undefined) {
+            var brandselect = "";
+            console.log(window.location.search);
 
+            if(window.location.search.length>1){
+                var params= window.location.search.substring(1).split('&');
+                for(var i=0;i<params.length;i++){
+                    if(params[i].substring(0,1) === "b"){
+                        brandselect=params[i].substring(2);
+                    }
+                }
+                
+                if(brandselect.length>0){
+                    brandselect = parseInt(brandselect, 16).toString(2)
+                    while (brandselect.length < data.data.length) { 
+                        brandselect = "0" + String(brandselect); 
+                    }
+                }
+            }
             // Checking website URLhash & Check loading array has "data" and "brandinfo"
             var cheapestElement = data.data[0][0];  // Initial default element
             cheapestElement[fuelName[0][index]] = 999 // Set initial price easy to beat
@@ -41,9 +50,32 @@ function contentText(getBounds, data) {
                 
                 data.data[dataindex].forEach(element => {
                     if (element.loc_lat < _northEast.lat && element.loc_lat > _southWest.lat && element.loc_lng > _southWest.lng && element.loc_lng < _northEast.lng) { // Check element geolocation in range
-                        if (!isNaN(element[fuelName[0][index]]) && element[fuelName[0][index]] !==null && cheapestElement[fuelName[0][index]] > element[fuelName[0][index]]) { // Check if fuel price does exist & cheaper than last one
+                        if(userfuel == "U91" && element.state=="NT" ){ // NT using LAF replace Unleaded 91
+                            if(element.LAF && cheapestElement[fuelName[0][index]] >element.LAF){
+                                cheapestElement = element
+                                cheapestElement[fuelName[0][index]]=element.LAF
+                            }
+                        } else if(userfuel === "P9X"){ // User is selecting P95+P98
+                            if(element.P95 && element.P95!==null && cheapestElement[fuelName[0][index]] >element.P95){
+                                cheapestElement = element
+                                cheapestElement[fuelName[0][index]]=element.P95
+                            }
+                            if(element.P98 && element.P98!==null && cheapestElement[fuelName[0][index]] >element.P98){
+                                cheapestElement = element
+                                cheapestElement[fuelName[0][index]]=element.P98
+                            }
+                        } else if(userfuel === "DLS"){ // User is selecting DL+PDL
+                            if(element.DL && element.DL!==null && cheapestElement[fuelName[0][index]] >element.DL){
+                                cheapestElement = element
+                                cheapestElement[fuelName[0][index]]=element.DL
+                            }
+                            if(element.PDL && element.PDL!==null && cheapestElement[fuelName[0][index]] >element.PDL){
+                                cheapestElement = element
+                                cheapestElement[fuelName[0][index]]=element.PDL
+                            }
+                        } else if (!isNaN(element[fuelName[0][index]]) && element[fuelName[0][index]] !==null && cheapestElement[fuelName[0][index]] > element[fuelName[0][index]]) { // Check if fuel price does exist & cheaper than last one
                             cheapestElement = element
-                        }
+                        } 
                     }
                 });
             }
@@ -59,7 +91,7 @@ function contentText(getBounds, data) {
                     cheapestAddr = cheapestAddr + ` ` + cheapestElement.postcode
                 }
             }
-            returnText = `Cheapest ` + fuelName[1][index] + ` at ` + cheapestElement.name + `, Price:` + cheapestElement[fuelName[0][index]] + `, Address:` + cheapestAddr
+            returnText = `Cheapest price:` + cheapestElement[fuelName[0][index]] + ` by ` + cheapestElement.name + `, at:` + cheapestAddr
             break;
         }
     }
@@ -67,11 +99,12 @@ function contentText(getBounds, data) {
     return returnText;
 }
 
-const Location = ({ map, data, status }) => {
+const Location = ({ map, data, status, userfuel}) => {
     const [bounds, setBounds] = useState([])
 
     useEffect(() => {
         if (!map && status) return;
+        if (userfuel=="All") return;
 
         const info = L.DomUtil.create('div', 'legend');
 
@@ -79,7 +112,7 @@ const Location = ({ map, data, status }) => {
             options: { position: 'bottomleft' },
 
             onAdd: function () {
-                info.innerHTML = contentText(map.getBounds(), data);
+                info.innerHTML = contentText(map.getBounds(), data,userfuel);
                 return info;
             }
         })

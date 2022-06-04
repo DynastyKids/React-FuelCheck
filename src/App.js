@@ -68,7 +68,7 @@ export default function App() {
         })
     }
 
-    const fuelName = [["U91", "E10", "P95", "P98", "DL", "PDL", "B20", "LPG", "DLS","All"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Diesel & Premium Diesel","All"]]
+    const fuelName = [["U91", "E10", "P95", "P98","P9X", "DL", "PDL", "B20", "LPG", "DLS","All"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Premium 95 & 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Diesel & Premium Diesel","All"]]
     const [fueltype,setFueltype] = React.useState('All');
     const handleFueltype = (e) =>{
         setFueltype(e);
@@ -93,10 +93,14 @@ export default function App() {
                                 <NavDropdown.Item eventKey="E10">Ethanol 94 / E10</NavDropdown.Item>
                                 <NavDropdown.Item eventKey="P95">Premium 95</NavDropdown.Item>
                                 <NavDropdown.Item eventKey="P98">Premium 98</NavDropdown.Item>
+                                <NavDropdown.Item eventKey="P9X">Premium 95 / 98</NavDropdown.Item>
+                                <NavDropdown.Divider />
                                 <NavDropdown.Item eventKey="DL">Diesel</NavDropdown.Item>
                                 <NavDropdown.Item eventKey="PDL">Premium Diesel</NavDropdown.Item>
                                 <NavDropdown.Item eventKey="DLS">Diesel + Premium Diesel </NavDropdown.Item>
+                                <NavDropdown.Divider />
                                 <NavDropdown.Item eventKey="LPG">LPG</NavDropdown.Item>
+                                <NavDropdown.Divider />
                                 <NavDropdown.Item eventKey="All">Showing All</NavDropdown.Item>
                             </NavDropdown>
                             <CheapStations />
