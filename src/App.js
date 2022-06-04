@@ -68,7 +68,7 @@ export default function App() {
         })
     }
 
-    const fuelName = [["U91", "E10", "P95", "P98", "DL", "PDL", "B20", "LPG", "DLS","All"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Diesel & Premium Diesel","All"]]
+    const fuelName = [["U91", "E10", "P95", "P98","P9X", "DL", "PDL", "B20", "LPG", "DLS","All"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Premium 95 & 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Diesel & Premium Diesel","All"]]
     const [fueltype,setFueltype] = React.useState('All');
     const handleFueltype = (e) =>{
         setFueltype(e);
