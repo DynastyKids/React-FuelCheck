@@ -27,7 +27,7 @@ export default function OsmMarkers(props) {
 
     const filterDatas = () => {
         var newdata = []
-        const fuelName = [["U91", "E10", "P95", "P98","P9X", "DL", "PDL", "B20", "LPG", "DLS"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Premium Unleaded 95 or 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Diesel & Premium Diesel"]] // Set Fullname of fuel type
+        const fuelName = [["U91", "E10", "P95", "P98","P9X","E91", "DL", "PDL", "B20", "LPG", "DLS","All"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Premium 95 & 98","Unleaded 91-E10", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Diesel & Premium Diesel","All"]]// Set Fullname of fuel type
         // Checking for parameters
         var params=[]
         const selectedfuel=(element) => element === props.userfuel;
@@ -75,6 +75,18 @@ export default function OsmMarkers(props) {
                         newdata.push({ price1:null,"address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": priceInfo })
                     } else if(eachstation.state === "NT" && props.userfuel === "U91" && eachstation["U91"] === null && eachstation["LAF"] !== null){
                         newdata.push({ "price1": eachstation["LAF"], "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": "Low Aromatic 91: " + eachstation["LAF"] })
+                    }else if (props.userfuel === "E91" && eachstation["U91"] !== null && eachstation["E10"] !== null){
+                        var priceInfo=""
+                        var pricetag = ""
+                        if(eachstation["E10"] !== null){
+                            priceInfo = "E10: " + eachstation["E10"]
+                            pricetag=eachstation["E10"]
+                        }
+                        if(eachstation["U91"] !== null){
+                            priceInfo = "Unloaded 91: " + eachstation["U91"]+"\n"+priceInfo
+                            pricetag=eachstation["U91"]
+                        }
+                        newdata.push({ "price1": pricetag, "address": eachstation.address, "suburb": eachstation.suburb, "state": eachstation.state, "postcode": eachstation.postcode, "brand": eachstation.brand, "loc_lat": eachstation.loc_lat, "loc_lng": eachstation.loc_lng, "name": eachstation.name, "priceInfo": priceInfo })
                     }else if (props.userfuel === "P9X" && eachstation["P98"] !== null && eachstation["P95"] !== null) {
                         var priceInfo=""
                         var pricetag = ""

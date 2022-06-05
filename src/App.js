@@ -1,7 +1,7 @@
 import logo from './oil.png';
-import MainBody from './components/body/main';
 import * as React from 'react';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+import OnOSMmap from './components/body/openstreetmap';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -68,8 +68,8 @@ export default function App() {
         })
     }
 
-    const fuelName = [["U91", "E10", "P95", "P98","P9X", "DL", "PDL", "B20", "LPG", "DLS","All"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Premium 95 & 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Diesel & Premium Diesel","All"]]
-    const [fueltype,setFueltype] = React.useState('All');
+    const fuelName = [["U91", "E10", "P95", "P98","P9X","E91", "DL", "PDL", "B20", "LPG", "DLS","All"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Premium 95 & 98","Unleaded 91-E10", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Diesel & Premium Diesel","All"]]
+    const [fueltype,setFueltype] = React.useState('U91');
     const handleFueltype = (e) =>{
         setFueltype(e);
         console.log("Changing to:"+e);
@@ -90,7 +90,8 @@ export default function App() {
                         <Nav.Link>Showing: {fuelName[1][fuelName[0].findIndex(selectedfuel)]}</Nav.Link>
                             <NavDropdown title="Fuel Type" id="basic-nav-dropdown" onSelect={handleFueltype}>
                                 <NavDropdown.Item eventKey="U91">Unledaded 91 / Opal 91 (NT Only)</NavDropdown.Item>
-                                <NavDropdown.Item eventKey="E10">Ethanol 94 / E10</NavDropdown.Item>
+                                <NavDropdown.Item eventKey="E10">Unleaded 94 / E10</NavDropdown.Item>
+                                <NavDropdown.Item eventKey="E91">Unleaded 91 & E10</NavDropdown.Item>
                                 <NavDropdown.Item eventKey="P95">Premium 95</NavDropdown.Item>
                                 <NavDropdown.Item eventKey="P98">Premium 98</NavDropdown.Item>
                                 <NavDropdown.Item eventKey="P9X">Premium 95 / 98</NavDropdown.Item>
@@ -111,7 +112,7 @@ export default function App() {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            <MainBody Lat={lat} Lng={lng} Zoom={zoom} data={data} rawdata={rawdata} status={isLoading} userfuel={fueltype}/>
+            <OnOSMmap data={data} rawdata={rawdata} status={isLoading} userfuel={fueltype} />
         </div>
     );
 }

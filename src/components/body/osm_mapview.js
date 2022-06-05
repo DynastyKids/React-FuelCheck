@@ -18,7 +18,7 @@ function contentText(getBounds, data,userfuel) {
     if (userfuel === "All") {
         return `Please select a fuel type to viewing cheapest info in your mapview.`
     }
-    const fuelName = [["U91", "E10", "P95", "P98","P9X", "DL", "PDL", "B20", "LPG", "DLS"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Premium Unleaded 95 or 98", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Diesel & Premium Diesel"]]
+    const fuelName = [["U91", "E10", "P95", "P98","P9X","E91", "DL", "PDL", "B20", "LPG", "DLS","All"], ["Unleaded 91", "Ethanol 10", "Premium Unleaded 95", "Premium Unleaded 98", "Premium 95 & 98","Unleaded 91-E10", "Diesel", "Premium Diesel", "BioDiesel", "LPG", "Diesel & Premium Diesel","All"]]
     const { _northEast, _southWest } = getBounds;
     for (let index = 0; index < fuelName[0].length; index++) {
         if (userfuel !== "All" && data.data !== undefined) {
