@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/React-FuelCheck/static/css/main.bcb68d65.css",
+    "main.js": "/React-FuelCheck/static/js/main.078fdcfc.js",
+    "static/js/27.696e1541.chunk.js": "/React-FuelCheck/static/js/27.696e1541.chunk.js",
+    "static/media/x.png": "/React-FuelCheck/static/media/x.16e9a1a63f345c450035.png",
+    "static/media/otr.png": "/React-FuelCheck/static/media/otr.ec62826225a019499430.png",
+    "static/media/speedway.png": "/React-FuelCheck/static/media/speedway.a5157cb161b376240da8.png",
+    "static/media/ampm.png": "/React-FuelCheck/static/media/ampm.518905f126ad1601f70a.png",
+    "static/media/Matilda.png": "/React-FuelCheck/static/media/Matilda.3141ef7bb5f1ab36db6b.png",
+    "static/media/enhance.png": "/React-FuelCheck/static/media/enhance.7eb85ae09a87ae9fd2cd.png",
+    "static/media/costco.png": "/React-FuelCheck/static/media/costco.a74bf53fb7f18a0e8552.png",
+    "static/media/Metro.png": "/React-FuelCheck/static/media/Metro.dc08d6dbddf0b4c5bd17.png",
+    "static/media/inland.png": "/React-FuelCheck/static/media/inland.f4c263b842be1ee4922a.png",
+    "static/media/colesexp.png": "/React-FuelCheck/static/media/colesexp.c818d78646c10893e1db.png",
+    "static/media/mogas.png": "/React-FuelCheck/static/media/mogas.b73b5aa0723533c3f143.png",
+    "static/media/vibe.png": "/React-FuelCheck/static/media/vibe.9eda315ef96e0755fae5.png",
+    "index.html": "/React-FuelCheck/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.bcb68d65.css",
+    "static/js/main.078fdcfc.js"
+  ]
+}
