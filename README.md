@@ -11,11 +11,16 @@ It's currently hosted on [GitHub Pages](https://dynastykids.github.io/React-Fuel
 
 # Updates
 
+## Dec 2022 Update
+ - Adding partial datasource for VIC and ACT (It's now having most stations covered)
+ - Adding E85 datasource for NSW only
+
 ## May 2022 Updates
  - Adding Brand selections on navigation bar
  - Brand selection will affect user's view and current cheapest station text in view
  - Merging Opal 91 (Low Aromatic Fuel) with showing together with standard unleaded 91
  - Fixing some icons showing issues
+ 
 ## April 2022 Updates
  - Adding fuel type filter on navigation bar
  - Adding some stations for State Gov API unavailable area (VIC, QLD and ACT) through 3rd sources.
@@ -28,7 +33,7 @@ It's currently hosted on [GitHub Pages](https://dynastykids.github.io/React-Fuel
 ## Future developments & Notices
 1. ~~Adding fuel type filter for selection~~ [#2](https://github.com/DynastyKids/React-FuelCheck/pull/2)
 2. ~~Adding each brands icon on pins~~
-3. Looking possibilities for accessing API and display infos for ~~NT, SA, QLD~~, VIC, ACT
+3. ~~Looking possibilities for accessing API and display infos for NT, SA, QLD, VIC, ACT~~
 4. Adding AdBlue available locations
 5. Adding Terminal Gate Price for reference (Pump price are different by store and supplier)
 
