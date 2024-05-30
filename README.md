@@ -1,6 +1,9 @@
 # React FuelCheck
 
-This is an react build application for checking fuel prices at servos across NSW, TAS and WA currently.
+* Deprecated: This project is nolonger maintained, site will only operated with CakePHP4 framework, available on [GitHub](https://github.com/DynastyKids/CakePHP4-fuelcheck)
+* Replacement Notice: The GitHub page is nolonger maintained, use [PHP site](https://fuel.0xjoy.com/) to check latest fuel price
+
+This is an react build application for checking fuel prices for Australia.
 
 [![pages-build-deployment](https://github.com/DynastyKids/React-FuelCheck/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/DynastyKids/React-FuelCheck/actions/workflows/pages/pages-build-deployment)[![Node.js CI](https://github.com/DynastyKids/React-FuelCheck/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/DynastyKids/React-FuelCheck/actions/workflows/node.js.yml)[![Dependency Review](https://github.com/DynastyKids/React-FuelCheck/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/DynastyKids/React-FuelCheck/actions/workflows/dependency-review.yml)
 
