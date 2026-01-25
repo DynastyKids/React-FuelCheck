@@ -1,7 +1,10 @@
 # React FuelCheck
 
-* Deprecated: This project is nolonger maintained, site will only operated with CakePHP4 framework, available on [GitHub](https://github.com/DynastyKids/CakePHP4-fuelcheck)
-* Replacement Notice: The GitHub page is nolonger maintained, use [PHP site](https://fuel.0xjoy.com/) to check latest fuel price
+**⚠️Important: This project has been deprecated, and a new project has been setup on [DynastyKids/NodeJS-FuelWatchdog](https://github.com/DynastyKids/NodeJS-FuelWatchdog)**
+
+All Database / existing web services will be terminated when server expires
+
+***
 
 This is an react build application for checking fuel prices for Australia.
 
